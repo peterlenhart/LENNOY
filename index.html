@@ -1,1 +1,108 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LENNOY | Pinsel · Bits · Bytes</title>
+  <style>
+    :root{--bg:#0d0b09;--brown:#2a1810;--gold:#d8b47a;--beige:#ead8b7;--text:#f4ead9;--muted:#c7b99f;--panel:rgba(20,14,10,.82);--line:rgba(216,180,122,.28)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#090806 url('lennoy_hintergr.png') center/cover fixed no-repeat;}
+    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,rgba(216,180,122,.16),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));pointer-events:none;z-index:-1}
+    a{color:inherit}.top{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(8,7,6,.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .brand-mini{letter-spacing:.22em;font-weight:700;color:var(--gold)}button{font:inherit}.hamb{width:46px;height:38px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.04);display:grid;place-items:center;color:var(--beige)}.hamb span,.hamb span:before,.hamb span:after{display:block;width:22px;height:2px;background:var(--beige);content:""}.hamb span:before{transform:translateY(-7px)}.hamb span:after{transform:translateY(5px)}
+    nav{position:fixed;right:14px;top:66px;width:min(330px,calc(100vw - 28px));background:rgba(14,10,8,.96);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 20px 70px #000;display:none;z-index:60}nav.open{display:block}nav a, nav button{display:block;width:100%;text-align:left;padding:13px 12px;border:0;border-bottom:1px solid rgba(216,180,122,.16);background:none;color:var(--text);text-decoration:none}.sub{display:none;padding-left:10px}.sub.open{display:block}.sub a{font-size:.94rem;color:var(--muted)}
+    .wrap{width:min(1080px,92vw);margin:auto}.hero{text-align:center;padding:42px 0 34px}.logo{width:min(180px,42vw);height:auto;filter:drop-shadow(0 8px 28px #000)}h1{font-size:clamp(2rem,8vw,5rem);margin:14px 0 4px;letter-spacing:.16em;color:var(--gold)}.tag{font-size:clamp(1rem,3vw,1.45rem);color:var(--beige);letter-spacing:.12em}.panel{background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:clamp(18px,4vw,38px);margin:28px 0;box-shadow:0 25px 80px rgba(0,0,0,.42)}
+    .promo{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}.promo img{width:100%;border-radius:22px;border:1px solid var(--line);box-shadow:0 18px 50px #000}.badge{display:inline-block;margin-bottom:12px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;color:var(--gold);background:rgba(216,180,122,.08)}h2{color:var(--gold);font-size:clamp(1.6rem,4vw,2.8rem);margin:0 0 12px}.lead{font-size:1.16rem;line-height:1.55;color:var(--beige)}.stores{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.store{padding:12px 16px;border-radius:14px;border:1px solid var(--line);text-decoration:none;background:rgba(255,255,255,.06)}
+    section{scroll-margin-top:90px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.card{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:20px;padding:18px;min-height:110px}.card strong{display:block;color:var(--beige);font-size:1.08rem}.card small{color:var(--muted)}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}.ph{aspect-ratio:1/1;border:1px dashed rgba(216,180,122,.45);border-radius:18px;display:grid;place-items:center;color:var(--muted);background:rgba(255,255,255,.035);text-align:center;padding:12px}.music-row{display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;padding:12px;border-bottom:1px solid rgba(216,180,122,.16)}.thumb{width:70px;height:70px;border-radius:12px;object-fit:cover;border:1px solid var(--line);background:#211}.play{border:1px solid var(--line);border-radius:999px;background:rgba(216,180,122,.12);color:var(--beige);padding:10px 14px}.foot{padding:40px 0 70px;color:var(--muted);text-align:center}.legal{white-space:pre-line;color:var(--muted);line-height:1.55}
+    @media(max-width:760px){.promo{grid-template-columns:1fr}.top{padding:12px}.brand-mini{font-size:.82rem}.music-row{grid-template-columns:56px 1fr auto}.thumb{width:56px;height:56px}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="brand-mini">LENNOY</div><button class="hamb" aria-label="Menü öffnen" onclick="toggleMenu()"><span></span></button></header>
+  <nav id="menu">
+    <a href="#lennoy" onclick="toggleMenu(false)">LENNOY | P. LENHART</a>
+    <button onclick="toggleSub()">Rubriken</button>
+    <div class="sub" id="sub">
+      <a href="#malerei" onclick="toggleMenu(false)">Klassische Malerei</a>
+      <a href="#karikaturen" onclick="toggleMenu(false)">Karikaturen</a>
+      <a href="#fotorealistik" onclick="toggleMenu(false)">Fotorealistik</a>
+      <a href="#murals" onclick="toggleMenu(false)">Murals</a>
+      <a href="#musik" onclick="toggleMenu(false)">KI-Musik</a>
+    </div>
+    <a href="#kontakt" onclick="toggleMenu(false)">Kontakt</a>
+    <a href="#impressum" onclick="toggleMenu(false)">Impressum & Datenschutz</a>
+  </nav>
 
+  <main class="wrap">
+    <section class="hero">
+      <img class="logo" src="icon-512.png" alt="LENNOY Logo">
+      <h1>LENNOY</h1>
+      <div class="tag">Pinsel · Bits · Bytes</div>
+    </section>
+
+    <section class="panel promo" id="home">
+      <img src="kippklapp_start.webp" alt="Kippklapp Spielbild / Platzhalter">
+      <div>
+        <span class="badge">Jetzt im Play Store und App Store</span>
+        <h2>Kippklapp</h2>
+        <p class="lead"><strong>Das 3D-Kippspiel.</strong><br>Würfel in der Box. Würfelfelder merken, Randfelder treffen. 3D-Denkspiele.</p>
+        <div class="stores"><a class="store" href="#">Play Store</a><a class="store" href="#">App Store</a></div>
+      </div>
+    </section>
+
+    <section class="panel" id="lennoy">
+      <h2>LENNOY | P. LENHART</h2>
+      <p class="lead">Unter dem Namen LENNOY verbindet Peter Lenhart klassische Kreativität mit spielerischen Ideen und digitaler Gestaltung.</p>
+      <p>Schon früh faszinierte ihn die Welt großer Karikaturisten wie Erich Sokol. Später arbeitete er selbst als Karikaturist für Zeitschriften und Privatkunden.</p>
+      <p>Angeregt von Künstlern wie Gottfried Helnwein entstanden fotorealistische Arbeiten, daneben auch surrealistische Acrylmalerei, abstrakte Aquarelle und grafische Projekte.</p>
+      <p>Viele Spiele entstanden zunächst als physische Holzmodelle für Freunde und Familie. KIPP CLUB ist die digitale Weiterentwicklung eines Kippspiels mit Holzwürfeln und Holzbox.</p>
+    </section>
+
+    <section class="panel" id="rubriken"><h2>Rubriken</h2><div class="grid">
+      <a class="card" href="#malerei"><strong>Klassische Malerei</strong><small>Acryl, Aquarell, freie Arbeiten</small></a>
+      <a class="card" href="#karikaturen"><strong>Karikaturen</strong><small>Aquarell</small></a>
+      <a class="card" href="#fotorealistik"><strong>Fotorealistik</strong><small>Pastell</small></a>
+      <a class="card" href="#murals"><strong>Murals</strong><small>Wandbilder</small></a>
+      <a class="card" href="#musik"><strong>KI-Musik</strong><small>Songs mit Thumbnail und Player</small></a>
+    </div></section>
+
+    <section class="panel" id="malerei"><h2>Klassische Malerei</h2><div class="gallery"><div class="ph">bild_klass.webp</div><div class="ph">hunger_klass.webp</div></div></section>
+    <section class="panel" id="karikaturen"><h2>Karikaturen</h2><div class="gallery"><div class="ph">hupfburg_kari.webp</div><div class="ph">portrait_kari.webp</div></div></section>
+    <section class="panel" id="fotorealistik"><h2>Fotorealistik</h2><div class="gallery"><div class="ph">schwimmer_real.webp</div><div class="ph">motiv_real.webp</div></div></section>
+    <section class="panel" id="murals"><h2>Murals</h2><div class="gallery"><div class="ph">wandbild_mural.webp</div><div class="ph">fassade_mural.webp</div></div></section>
+
+    <section class="panel" id="musik">
+      <h2>KI-Musik</h2>
+      <p class="lead">Platzhalter für Songs. Später MP3-Dateien und Thumbnails ersetzen.</p>
+      <div class="music-row"><img class="thumb" src="song1_thumb.webp" alt="Song 1"><div><strong>Song 1</strong><br><small>song1.mp3</small></div><button class="play" onclick="toggleAudio('a1',this)">Play</button><audio id="a1" src="song1.mp3"></audio></div>
+      <div class="music-row"><img class="thumb" src="song2_thumb.webp" alt="Song 2"><div><strong>Song 2</strong><br><small>song2.mp3</small></div><button class="play" onclick="toggleAudio('a2',this)">Play</button><audio id="a2" src="song2.mp3"></audio></div>
+    </section>
+
+    <section class="panel" id="kontakt"><h2>Kontakt</h2><p class="lead">E-Mail: <a href="mailto:office@lennoy.at">office@lennoy.at</a></p></section>
+
+    <section class="panel" id="impressum"><h2>Impressum & Datenschutz</h2><div class="legal">Impressum
+Peter Lenhart
+Büschendorf 4d
+8786 Rottenmann
+Österreich
+E-Mail: office@lennoy.at
+
+Verantwortlich für Inhalt und Gestaltung dieser Website: Peter Lenhart
+Diese Website dient der Präsentation kreativer Projekte, Kunst, Musik und digitaler Inhalte.
+
+Datenschutz
+Der Schutz Ihrer persönlichen Daten ist wichtig. Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch notwendigen Umfang.
+Beim Besuch dieser Website können durch den Hostinganbieter automatisch technische Daten verarbeitet werden, zum Beispiel IP-Adresse, Browserinformationen oder Zugriffszeitpunkt.
+Diese Website kann Links zu externen Plattformen enthalten, darunter YouTube, Instagram, Facebook, Google Play Store und Apple App Store.
+Beim Aufrufen externer Links gelten die Datenschutzbestimmungen der jeweiligen Plattformen.
+Kontaktaufnahme per E-Mail erfolgt freiwillig durch den Nutzer. Es werden keine personenbezogenen Daten verkauft oder weitergegeben.</div></section>
+  </main>
+  <footer class="foot">© LENNOY · Pinsel · Bits · Bytes</footer>
+  <script>
+    function toggleMenu(force){const m=document.getElementById('menu'); if(force===false)m.classList.remove('open'); else m.classList.toggle('open')}
+    function toggleSub(){document.getElementById('sub').classList.toggle('open')}
+    function toggleAudio(id,btn){document.querySelectorAll('audio').forEach(a=>{if(a.id!==id){a.pause(); const b=a.parentElement.querySelector('button'); if(b)b.textContent='Play'}}); const a=document.getElementById(id); if(a.paused){a.play();btn.textContent='Pause'}else{a.pause();btn.textContent='Play'}}
+  </script>
+</body>
+</html>
