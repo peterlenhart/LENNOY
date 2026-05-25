@@ -74,23 +74,11 @@
     }
     .reveal.visible { opacity: 1; transform: none; }
 
-    /* ── HAMBURGER FIXED ─────────────────────── */
-    .hamb-fixed {
-      position: fixed; top: 16px; right: 16px; z-index: 55;
-      width: 44px; height: 36px;
-      border: 1px solid var(--line); border-radius: 9px;
-      background: rgba(9,7,5,.7);
-      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      cursor: pointer; display: flex; flex-direction: column;
-      justify-content: center; align-items: center; gap: 5px;
-      transition: background .2s, border-color .2s;
-    }
-    .hamb-fixed:hover { background: rgba(216,174,90,.15); border-color: var(--gold); }
-    .hamb-fixed span { display: block; width: 20px; height: 1.5px; background: var(--beige); border-radius: 2px; }
+
 
     /* ── NAV DRAWER ──────────────────────────── */
     nav {
-      position: fixed; right: 14px; top: 64px;
+      position: fixed; right: 14px; top: 20px;
       width: min(310px, calc(100vw - 24px));
       background: rgba(9,7,5,.97);
       border: 1px solid var(--line); border-radius: 18px;
@@ -119,11 +107,25 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 58px 0 46px;
-      position: relative;
+      padding: 48px 20px 36px;
       width: 100%;
+      box-sizing: border-box;
     }
+    .hamb-hero {
+      margin-top: 22px;
+      width: 48px; height: 40px;
+      border: 1px solid var(--line); border-radius: 9px;
+      background: rgba(9,7,5,.7);
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: 5px;
+      transition: background .2s, border-color .2s;
+    }
+    .hamb-hero:hover { background: rgba(216,174,90,.15); border-color: var(--gold); }
+    .hamb-hero span { display: block; width: 22px; height: 2px; background: var(--beige); border-radius: 2px; }
     .hero::before {
       content: ""; position: absolute; top: 60%; left: 50%;
       transform: translate(-50%, -50%);
@@ -374,11 +376,6 @@
 </head>
 <body>
 
-  <!-- ── HAMBURGER ──────────────────────────────── -->
-  <button class="hamb-fixed" aria-label="Menü öffnen" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </button>
-
   <!-- ── NAVIGATION ──────────────────────────────── -->
   <nav id="menu">
     <a href="#home"      onclick="toggleMenu(false)">Start</a>
@@ -402,6 +399,9 @@
       <img class="logo" src="icon-512.webp" alt="LENNOY Logo">
       <div class="hero-tag">Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</div>
       <div class="ornament">✦</div>
+      <button class="hamb-hero" aria-label="Menü öffnen" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
     </section>
 
     <!-- ── KIPP CLUB ──────────────────────────────── -->
@@ -602,7 +602,7 @@ Kontaktaufnahme per E-Mail erfolgt freiwillig durch den Nutzer. Es werden keine 
     }
     document.addEventListener('click', e => {
       const menu = document.getElementById('menu');
-      const hamb = document.querySelector('.hamb-fixed');
+      const hamb = document.querySelector('.hamb-hero');
       if (menu.classList.contains('open') && !menu.contains(e.target) && !hamb.contains(e.target)) {
         menu.classList.remove('open');
       }
