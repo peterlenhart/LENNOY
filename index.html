@@ -4,83 +4,544 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LENNOY | Pinsel · Bits · Bytes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0d0b09;--brown:#2a1810;--gold:#d8b47a;--beige:#ead8b7;--text:#f4ead9;--muted:#c7b99f;--panel:rgba(20,14,10,.82);--line:rgba(216,180,122,.28)}
-    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:#090806 url('lennoy_hintergr.webp') center/cover fixed no-repeat;}
-    body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 50% 0%,rgba(216,180,122,.16),transparent 34%),linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.9));pointer-events:none;z-index:0} body>*{position:relative;z-index:1}
-    a{color:inherit}.top{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(8,7,6,.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .brand-mini{letter-spacing:.22em;font-weight:700;color:var(--gold)}button{font:inherit}.hamb{width:46px;height:38px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.04);display:grid;place-items:center;color:var(--beige)}.hamb span,.hamb span:before,.hamb span:after{display:block;width:22px;height:2px;background:var(--beige);content:""}.hamb span:before{transform:translateY(-7px)}.hamb span:after{transform:translateY(5px)}
-    nav{position:fixed;right:14px;top:66px;width:min(330px,calc(100vw - 28px));background:rgba(14,10,8,.96);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 20px 70px #000;display:none;z-index:60}nav.open{display:block}nav a, nav button{display:block;width:100%;text-align:left;padding:13px 12px;border:0;border-bottom:1px solid rgba(216,180,122,.16);background:none;color:var(--text);text-decoration:none}.sub{display:none;padding-left:10px}.sub.open{display:block}.sub a{font-size:.94rem;color:var(--muted)}
-    .wrap{width:min(1080px,92vw);margin:auto}.hero{text-align:center;padding:42px 0 34px;position:relative;z-index:4}.logo{width:min(180px,42vw);height:auto;filter:drop-shadow(0 8px 28px #000)}h1{font-size:clamp(2rem,8vw,5rem);margin:14px 0 4px;letter-spacing:.16em;color:var(--gold)}.tag{font-size:clamp(calc(1rem + 2px),calc(3vw + 2px),calc(1.45rem + 2px));color:#fff;letter-spacing:.12em;font-weight:700;opacity:1;text-shadow:none;filter:none;mix-blend-mode:normal;background:none;position:relative;z-index:5}.panel{background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:clamp(18px,4vw,38px);margin:28px 0;box-shadow:0 25px 80px rgba(0,0,0,.42)}
-    .promo{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}.promo img{width:100%;border-radius:22px;border:1px solid var(--line);box-shadow:0 18px 50px #000}.badge{display:inline-block;margin-bottom:12px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;color:var(--gold);background:rgba(216,180,122,.08)}h2{color:var(--gold);font-size:clamp(1.6rem,4vw,2.8rem);margin:0 0 12px}.lead{font-size:1.16rem;line-height:1.55;color:var(--beige)}.stores{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}.store{padding:12px 16px;border-radius:14px;border:1px solid var(--line);text-decoration:none;background:rgba(255,255,255,.06)}
-    section{scroll-margin-top:90px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}.card{border:1px solid var(--line);background:rgba(255,255,255,.045);border-radius:20px;padding:18px;min-height:110px}.card strong{display:block;color:var(--beige);font-size:1.08rem}.card small{color:var(--muted)}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}.ph{aspect-ratio:1/1;border:1px dashed rgba(216,180,122,.45);border-radius:18px;display:grid;place-items:center;color:var(--muted);background:rgba(255,255,255,.035);text-align:center;padding:12px}.music-row{display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;padding:12px;border-bottom:1px solid rgba(216,180,122,.16)}.thumb{width:70px;height:70px;border-radius:12px;object-fit:cover;border:1px solid var(--line);background:#211}.play{border:1px solid var(--line);border-radius:999px;background:rgba(216,180,122,.12);color:var(--beige);padding:10px 14px}.foot{padding:40px 0 70px;color:var(--muted);text-align:center}.legal{white-space:pre-line;color:var(--muted);line-height:1.55}
-    @media(max-width:760px){.promo{grid-template-columns:1fr}.top{padding:12px}.brand-mini{font-size:.82rem}.music-row{grid-template-columns:56px 1fr auto}.thumb{width:56px;height:56px}}
+    /* ── VARIABLES & RESET ───────────────────── */
+    :root {
+      --bg:         #090806;
+      --gold:       #d8a84a;
+      --gold-lt:    #f2d47e;
+      --gold-dk:    #9a6415;
+      --beige:      #ead8b7;
+      --text:       #f4ead9;
+      --muted:      #c7b99f;
+      --panel:      rgba(13,9,6,.90);
+      --line:       rgba(216,174,90,.22);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.68;
+      color: var(--text);
+      background: var(--bg) url('lennoy_hintergr.webp') center / cover fixed no-repeat;
+    }
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 90% 44% at 50% -5%, rgba(216,174,90,.11), transparent),
+        radial-gradient(ellipse 55% 55% at 95% 85%, rgba(180,90,10,.08), transparent),
+        linear-gradient(180deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.80) 100%);
+    }
+    body > * { position: relative; z-index: 1; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── ANIMATIONS ──────────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: -250% center; }
+      100% { background-position:  250% center; }
+    }
+    .shimmer {
+      background: linear-gradient(90deg,
+        var(--gold-dk) 0%, var(--gold-lt) 22%, #fff8e0 38%, var(--gold-lt) 54%, var(--gold-dk) 100%);
+      background-size: 280% auto;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 5.5s linear infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-9px); }
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: .65; transform: scale(1); }
+      50%       { opacity: 1;   transform: scale(1.06); }
+    }
+    @keyframes navIn {
+      from { opacity:0; transform:scale(.92); }
+      to   { opacity:1; transform:scale(1); }
+    }
+
+    /* ── SCROLL REVEAL ───────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── HAMBURGER FIXED ─────────────────────── */
+    .hamb-fixed {
+      position: fixed; top: 16px; right: 16px; z-index: 55;
+      width: 44px; height: 36px;
+      border: 1px solid var(--line); border-radius: 9px;
+      background: rgba(9,7,5,.7);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      cursor: pointer; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: 5px;
+      transition: background .2s, border-color .2s;
+    }
+    .hamb-fixed:hover { background: rgba(216,174,90,.15); border-color: var(--gold); }
+    .hamb-fixed span { display: block; width: 20px; height: 1.5px; background: var(--beige); border-radius: 2px; }
+
+    /* ── NAV DRAWER ──────────────────────────── */
+    nav {
+      position: fixed; right: 14px; top: 64px;
+      width: min(310px, calc(100vw - 24px));
+      background: rgba(9,7,5,.97);
+      border: 1px solid var(--line); border-radius: 18px;
+      padding: 10px; box-shadow: 0 28px 80px #000, 0 0 50px rgba(216,174,90,.06);
+      display: none; z-index: 60; transform-origin: top right;
+    }
+    nav.open { display: block; animation: navIn .22s ease; }
+    nav a, nav button {
+      display: block; width: 100%; text-align: left;
+      padding: 11px 15px; border: 0; border-radius: 9px;
+      background: none; color: var(--text);
+      font-family: 'Cinzel', serif; font-size: .8rem;
+      letter-spacing: .1em; cursor: pointer;
+      transition: background .18s, color .18s;
+    }
+    nav a:hover, nav button:hover { background: rgba(216,174,90,.1); color: var(--gold); }
+    .sub { display: none; padding-left: 8px; }
+    .sub.open { display: block; }
+    .sub a { font-size: .76rem; color: var(--muted); }
+
+    /* ── LAYOUT ──────────────────────────────── */
+    .wrap { width: min(1100px, 92vw); margin: auto; }
+
+    /* ── HERO ────────────────────────────────── */
+    .hero {
+      text-align: center; padding: 58px 0 46px; position: relative;
+    }
+    .hero::before {
+      content: ""; position: absolute; top: 60%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 260px;
+      background: radial-gradient(ellipse, rgba(216,174,90,.1), transparent 70%);
+      pointer-events: none;
+    }
+    .logo {
+      width: min(130px, 32vw);
+      filter: drop-shadow(0 0 28px rgba(216,174,90,.55)) drop-shadow(0 10px 32px #000);
+      animation: float 4.5s ease-in-out infinite;
+    }
+    .hero-tag {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(.88rem, 2.4vw, 1.15rem);
+      letter-spacing: .3em; color: var(--muted); text-transform: uppercase;
+      margin-top: 12px;
+    }
+    .ornament {
+      margin: 14px auto 0; width: fit-content;
+      display: flex; align-items: center; gap: 12px;
+      color: var(--gold); opacity: .45; font-size: .68rem; letter-spacing: .3em;
+    }
+    .ornament::before, .ornament::after {
+      content: ""; width: 70px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    /* ── PANELS ──────────────────────────────── */
+    .panel {
+      background: none;
+      border: none;
+      border-radius: 0;
+      padding: clamp(22px, 4vw, 44px) 0;
+      margin: 10px 0;
+      box-shadow: none;
+      border-bottom: 1px solid rgba(216,174,90,.12);
+    }
+    .panel:last-of-type { border-bottom: none; }
+    h2 {
+      font-family: 'Cinzel', serif; color: var(--gold);
+      font-size: clamp(1.55rem, 3.8vw, 2.6rem);
+      letter-spacing: .1em; margin-bottom: 14px;
+    }
+    .h2-lennoy {
+      font-size: clamp(1rem, 5.2vw, 2.6rem); white-space: nowrap;
+    }
+    .lead { font-size: 1.1rem; line-height: 1.72; color: var(--beige); }
+    .section-line {
+      width: 100%; height: 1px; margin: 4px 0 18px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: .2;
+    }
+
+    /* ── KIPP CLUB PROMO ─────────────────────── */
+    .promo {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: center;
+    }
+    .promo-glow { position: relative; border-radius: 22px; }
+    .promo-glow::before {
+      content: ""; position: absolute; inset: -24px;
+      background: radial-gradient(ellipse, rgba(216,174,90,.22), transparent 68%);
+      border-radius: 36px; pointer-events: none;
+      animation: glowPulse 3.2s ease-in-out infinite;
+    }
+    .promo-glow img {
+      display: block; width: 100%; border-radius: 20px;
+      border: 1px solid rgba(216,174,90,.35);
+      box-shadow: 0 32px 90px rgba(0,0,0,.75), 0 0 50px rgba(216,174,90,.18);
+      position: relative; z-index: 1;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      margin-bottom: 14px; padding: 7px 16px;
+      border: 1px solid rgba(216,174,90,.38); border-radius: 999px;
+      color: var(--gold); background: rgba(216,174,90,.07);
+      font-family: 'Cinzel', serif; font-size: .72rem; letter-spacing: .12em;
+    }
+    .badge::before { content: "✦"; font-size: .62rem; }
+    .stores { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+    .store {
+      display: block; border-radius: 11px; overflow: hidden;
+      border: 1px solid var(--line); opacity: .88;
+      transition: transform .22s, box-shadow .22s, border-color .22s, opacity .22s;
+    }
+    .store:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 36px rgba(0,0,0,.55), 0 0 22px rgba(216,174,90,.22);
+      border-color: var(--gold); opacity: 1;
+    }
+    .store img { display: block; height: 50px; width: auto; }
+
+    /* ── ACCORDION ───────────────────────────── */
+    .accordion { margin-top: 8px; }
+    .acc-item { border-bottom: 1px solid var(--line); }
+    .acc-item:last-child { border-bottom: none; }
+
+    .acc-trigger {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 4px; border: 0; background: none;
+      color: var(--text); cursor: pointer; text-align: left;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 3vw, 1.35rem);
+      letter-spacing: .08em;
+      transition: color .2s;
+    }
+    .acc-trigger:hover { color: var(--gold); }
+    .acc-trigger.open  { color: var(--gold); }
+
+    .acc-sub { font-size: .78rem; color: var(--muted); font-family: 'EB Garamond', serif;
+               letter-spacing: .04em; display: block; margin-top: 3px; }
+
+    .acc-icon {
+      font-size: 1.4rem; color: var(--gold); opacity: .6;
+      flex-shrink: 0; margin-left: 12px;
+      transition: transform .35s ease;
+      line-height: 1;
+    }
+    .acc-trigger.open .acc-icon { transform: rotate(45deg); opacity: 1; }
+
+    .acc-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height .5s ease, padding .35s ease;
+      padding-bottom: 0;
+    }
+    .acc-body.open {
+      max-height: 1400px;
+      padding-bottom: 28px;
+    }
+
+    /* ── GALLERY ─────────────────────────────── */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 14px; margin-top: 18px;
+    }
+    .ph {
+      aspect-ratio: 3/4;
+      border: 1px dashed rgba(216,174,90,.28); border-radius: 14px;
+      background: rgba(255,255,255,.025);
+      display: flex; flex-direction: column;
+      justify-content: flex-end; align-items: center;
+      padding: 12px; color: var(--muted); font-size: .78rem;
+      text-align: center; position: relative; overflow: hidden;
+      transition: border-color .2s, background .2s;
+    }
+    .ph:hover { border-color: rgba(216,174,90,.55); background: rgba(255,255,255,.05); }
+    .ph::before {
+      content: ""; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 40px; height: 40px; opacity: .12;
+      background: var(--gold); border-radius: 50%;
+    }
+
+    /* ── MUSIC PLAYER ────────────────────────── */
+    .music-row {
+      display: grid; grid-template-columns: 62px 1fr auto;
+      gap: 16px; align-items: center;
+      padding: 14px; border-radius: 13px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.025); margin-top: 12px;
+      transition: border-color .2s, background .2s;
+    }
+    .music-row:hover { border-color: rgba(216,174,90,.35); background: rgba(255,255,255,.045); }
+    .thumb {
+      width: 62px; height: 62px; border-radius: 10px;
+      object-fit: cover; border: 1px solid var(--line);
+      background: rgba(216,174,90,.08);
+    }
+    .song-title { font-family: 'Cinzel', serif; font-size: .88rem; letter-spacing: .04em; }
+    .song-file  { color: var(--muted); font-size: .82rem; }
+    .play {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(216,174,90,.08); color: var(--gold);
+      cursor: pointer; font-size: .78rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .2s, border-color .2s;
+    }
+    .play:hover  { background: rgba(216,174,90,.2); border-color: var(--gold); }
+    .play.active { background: rgba(216,174,90,.22); border-color: var(--gold); }
+
+    /* ── ABOUT ───────────────────────────────── */
+    .about-text p + p { margin-top: .9em; }
+
+    /* ── CONTACT ─────────────────────────────── */
+    .contact-email {
+      display: inline-block; margin-top: 12px;
+      padding: 12px 30px; border-radius: 10px;
+      border: 1px solid var(--gold); color: var(--gold);
+      background: rgba(216,174,90,.06);
+      font-family: 'Cinzel', serif; letter-spacing: .1em; font-size: .9rem;
+      transition: background .2s, box-shadow .2s;
+    }
+    .contact-email:hover {
+      background: rgba(216,174,90,.14);
+      box-shadow: 0 0 28px rgba(216,174,90,.22);
+    }
+
+    /* ── LEGAL ───────────────────────────────── */
+    .legal {
+      white-space: pre-line; color: var(--muted);
+      line-height: 1.75; font-size: .92rem;
+    }
+
+    /* ── FOOTER ──────────────────────────────── */
+    .foot {
+      padding: 46px 0 80px; text-align: center;
+      color: var(--muted); font-family: 'Cinzel', serif;
+      font-size: .74rem; letter-spacing: .22em;
+    }
+    .foot-line {
+      display: block; width: 60px; height: 1px; margin: 10px auto 0;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: .35;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 760px) {
+      .promo { grid-template-columns: 1fr; }
+      .promo-glow { max-width: 300px; margin: 0 auto; }
+      .music-row { grid-template-columns: 52px 1fr auto; }
+      .thumb { width: 52px; height: 52px; }
+    }
+    @media (max-width: 440px) {
+      .stores { flex-direction: column; }
+      .store img { height: 46px; }
+    }
   </style>
 </head>
 <body>
-  <header class="top"><div class="brand-mini">LENNOY</div><button class="hamb" aria-label="Menü öffnen" onclick="toggleMenu()"><span></span></button></header>
+
+  <!-- ── HAMBURGER ──────────────────────────────── -->
+  <button class="hamb-fixed" aria-label="Menü öffnen" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+
+  <!-- ── NAVIGATION ──────────────────────────────── -->
   <nav id="menu">
-    <a href="#lennoy" onclick="toggleMenu(false)">LENNOY | P. LENHART</a>
-    <button onclick="toggleSub()">Rubriken</button>
+    <a href="#home"      onclick="toggleMenu(false)">Start</a>
+    <button onclick="toggleSub()">Rubriken &nbsp;▾</button>
     <div class="sub" id="sub">
-      <a href="#malerei" onclick="toggleMenu(false)">Klassische Malerei</a>
-      <a href="#karikaturen" onclick="toggleMenu(false)">Karikaturen</a>
-      <a href="#fotorealistik" onclick="toggleMenu(false)">Fotorealistik</a>
-      <a href="#murals" onclick="toggleMenu(false)">Murals</a>
-      <a href="#musik" onclick="toggleMenu(false)">KI-Musik</a>
+      <a href="#rubriken" onclick="openAcc('acc-malerei');   toggleMenu(false)">Klassische Malerei</a>
+      <a href="#rubriken" onclick="openAcc('acc-karikaturen');toggleMenu(false)">Karikaturen</a>
+      <a href="#rubriken" onclick="openAcc('acc-fotorealism');toggleMenu(false)">Fotorealismus</a>
+      <a href="#rubriken" onclick="openAcc('acc-murals');    toggleMenu(false)">Murals</a>
+      <a href="#rubriken" onclick="openAcc('acc-musik');     toggleMenu(false)">KI-Musik</a>
     </div>
-    <a href="#kontakt" onclick="toggleMenu(false)">Kontakt</a>
+    <a href="#lennoy"    onclick="toggleMenu(false)">LENNOY | P. LENHART</a>
+    <a href="#kontakt"   onclick="toggleMenu(false)">Kontakt</a>
     <a href="#impressum" onclick="toggleMenu(false)">Impressum & Datenschutz</a>
   </nav>
 
   <main class="wrap">
-    <section class="hero">
+
+    <!-- ── HERO ───────────────────────────────────── -->
+    <section class="hero" id="home">
       <img class="logo" src="icon-512.png" alt="LENNOY Logo">
-      <div class="tag">Pinsel · Bits · Bytes</div>
+      <div class="hero-tag">Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</div>
+      <div class="ornament">✦</div>
     </section>
 
-    <section class="panel promo" id="home">
-      <img src="kippclub_start.webp" alt="KIPP CLUB Spielbild / Platzhalter">
+    <!-- ── KIPP CLUB ──────────────────────────────── -->
+    <section class="panel promo reveal" id="kippclub">
+      <div class="promo-glow">
+        <img src="kippclub_start.webp" alt="KIPP CLUB – Das 3D-Kippspiel">
+      </div>
       <div>
-        <span class="badge">Jetzt im Play Store und App Store</span>
+        <span class="badge">Jetzt im Play Store &amp; App Store</span>
         <h2>KIPP CLUB</h2>
-        <p class="lead"><strong>Das 3D-Kippspiel.</strong><br>Würfel in der Box. Würfelfelder merken, Randfelder treffen. 3D-Denkspiele.</p>
-        <div class="stores"><a class="store" href="#">Play Store</a><a class="store" href="#">App Store</a></div>
+        <p class="lead">
+          <strong>Das 3D-Kippspiel.</strong><br>
+          Würfel in der Box. Würfelfelder merken, Randfelder treffen.
+          Die Herausforderung meistern.
+        </p>
+        <p style="color:var(--muted);font-size:.95rem;margin-top:8px;">
+          Merken · Logik · Kopfzerbrechen
+        </p>
+        <div class="stores">
+          <a class="store" href="#" aria-label="Jetzt bei Google Play">
+            <img src="GooglePlay.webp" alt="Jetzt bei Google Play">
+          </a>
+          <a class="store" href="#" aria-label="Laden im App Store">
+            <img src="AppStore.webp" alt="Laden im App Store">
+          </a>
+        </div>
       </div>
     </section>
 
-    <section class="panel" id="lennoy">
-      <h2>LENNOY | P. LENHART</h2>
-      <p class="lead">Unter dem Namen LENNOY verbindet Peter Lenhart klassische Kreativität mit spielerischen Ideen und digitaler Gestaltung.</p>
-      <p>Schon früh faszinierte ihn die Welt großer Karikaturisten wie Erich Sokol. Später arbeitete er selbst als Karikaturist für Zeitschriften und Privatkunden.</p>
-      <p>Angeregt von Künstlern wie Gottfried Helnwein entstanden fotorealistische Arbeiten, daneben auch surrealistische Acrylmalerei, abstrakte Aquarelle und grafische Projekte.</p>
-      <p>Viele Spiele entstanden zunächst als physische Holzmodelle für Freunde und Familie. KIPP CLUB ist die digitale Weiterentwicklung eines Kippspiels mit Holzwürfeln und Holzbox.</p>
+    <!-- ── RUBRIKEN ACCORDION ─────────────────────── -->
+    <section class="panel reveal" id="rubriken">
+      <h2>Rubriken</h2>
+      <div class="section-line"></div>
+      <div class="accordion">
+
+        <!-- Klassische Malerei -->
+        <div class="acc-item">
+          <button class="acc-trigger" id="acc-malerei" onclick="toggleAcc(this)">
+            <span>
+              Klassische Malerei
+              <span class="acc-sub">Acryl · Aquarell · freie Arbeiten</span>
+            </span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="gallery">
+              <div class="ph">bild_klass.webp</div>
+              <div class="ph">hunger_klass.webp</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Karikaturen -->
+        <div class="acc-item">
+          <button class="acc-trigger" id="acc-karikaturen" onclick="toggleAcc(this)">
+            <span>
+              Karikaturen
+              <span class="acc-sub">Aquarell</span>
+            </span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="gallery">
+              <div class="ph">hupfburg_kari.webp</div>
+              <div class="ph">portrait_kari.webp</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fotorealismus -->
+        <div class="acc-item">
+          <button class="acc-trigger" id="acc-fotorealism" onclick="toggleAcc(this)">
+            <span>
+              Fotorealismus
+              <span class="acc-sub">Pastell</span>
+            </span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="gallery">
+              <div class="ph">schwimmer_real.webp</div>
+              <div class="ph">motiv_real.webp</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Murals -->
+        <div class="acc-item">
+          <button class="acc-trigger" id="acc-murals" onclick="toggleAcc(this)">
+            <span>
+              Murals
+              <span class="acc-sub">Wandbilder</span>
+            </span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="gallery">
+              <div class="ph">wandbild_mural.webp</div>
+              <div class="ph">fassade_mural.webp</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KI-Musik -->
+        <div class="acc-item">
+          <button class="acc-trigger" id="acc-musik" onclick="toggleAcc(this)">
+            <span>
+              KI-Musik
+              <span class="acc-sub">Songs mit Player</span>
+            </span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="lead" style="margin-bottom:4px;">Platzhalter für Songs – später MP3-Dateien und Thumbnails ersetzen.</p>
+            <div class="music-row">
+              <img class="thumb" src="song1_thumb.webp" alt="Song 1">
+              <div>
+                <div class="song-title">Song 1</div>
+                <div class="song-file">song1.mp3</div>
+              </div>
+              <button class="play" onclick="toggleAudio('a1',this)">▶</button>
+              <audio id="a1" src="song1.mp3"></audio>
+            </div>
+            <div class="music-row">
+              <img class="thumb" src="song2_thumb.webp" alt="Song 2">
+              <div>
+                <div class="song-title">Song 2</div>
+                <div class="song-file">song2.mp3</div>
+              </div>
+              <button class="play" onclick="toggleAudio('a2',this)">▶</button>
+              <audio id="a2" src="song2.mp3"></audio>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /accordion -->
     </section>
 
-    <section class="panel" id="rubriken"><h2>Rubriken</h2><div class="grid">
-      <a class="card" href="#malerei"><strong>Klassische Malerei</strong><small>Acryl, Aquarell, freie Arbeiten</small></a>
-      <a class="card" href="#karikaturen"><strong>Karikaturen</strong><small>Aquarell</small></a>
-      <a class="card" href="#fotorealistik"><strong>Fotorealistik</strong><small>Pastell</small></a>
-      <a class="card" href="#murals"><strong>Murals</strong><small>Wandbilder</small></a>
-      <a class="card" href="#musik"><strong>KI-Musik</strong><small>Songs mit Thumbnail und Player</small></a>
-    </div></section>
-
-    <section class="panel" id="malerei"><h2>Klassische Malerei</h2><div class="gallery"><div class="ph">bild_klass.webp</div><div class="ph">hunger_klass.webp</div></div></section>
-    <section class="panel" id="karikaturen"><h2>Karikaturen</h2><div class="gallery"><div class="ph">hupfburg_kari.webp</div><div class="ph">portrait_kari.webp</div></div></section>
-    <section class="panel" id="fotorealistik"><h2>Fotorealistik</h2><div class="gallery"><div class="ph">schwimmer_real.webp</div><div class="ph">motiv_real.webp</div></div></section>
-    <section class="panel" id="murals"><h2>Murals</h2><div class="gallery"><div class="ph">wandbild_mural.webp</div><div class="ph">fassade_mural.webp</div></div></section>
-
-    <section class="panel" id="musik">
-      <h2>KI-Musik</h2>
-      <p class="lead">Platzhalter für Songs. Später MP3-Dateien und Thumbnails ersetzen.</p>
-      <div class="music-row"><img class="thumb" src="song1_thumb.webp" alt="Song 1"><div><strong>Song 1</strong><br><small>song1.mp3</small></div><button class="play" onclick="toggleAudio('a1',this)">Play</button><audio id="a1" src="song1.mp3"></audio></div>
-      <div class="music-row"><img class="thumb" src="song2_thumb.webp" alt="Song 2"><div><strong>Song 2</strong><br><small>song2.mp3</small></div><button class="play" onclick="toggleAudio('a2',this)">Play</button><audio id="a2" src="song2.mp3"></audio></div>
+    <!-- ── LENNOY | P. LENHART (unten) ────────────── -->
+    <section class="panel reveal" id="lennoy">
+      <h2 class="h2-lennoy">LENNOY | P. LENHART</h2>
+      <div class="section-line"></div>
+      <div class="lead about-text">
+        <p>Unter dem Namen LENNOY verbindet Peter Lenhart klassische Kreativität mit spielerischen Ideen und digitaler Gestaltung.</p>
+        <p>Schon früh faszinierte ihn die Welt großer Karikaturisten wie Erich Sokol. Später arbeitete er selbst als Karikaturist für Zeitschriften und Privatkunden.</p>
+        <p>Angeregt von Künstlern wie Gottfried Helnwein entstanden fotorealistische Arbeiten, daneben auch surrealistische Acrylmalerei, abstrakte Aquarelle und grafische Projekte.</p>
+        <p>Viele Spiele entstanden zunächst als physische Holzmodelle für Freunde und Familie. KIPP CLUB ist die digitale Weiterentwicklung eines Kippspiels mit Holzwürfeln und Holzbox.</p>
+      </div>
     </section>
 
-    <section class="panel" id="kontakt"><h2>Kontakt</h2><p class="lead">E-Mail: <a href="mailto:office@lennoy.at">office@lennoy.at</a></p></section>
+    <!-- ── KONTAKT ────────────────────────────────── -->
+    <section class="panel reveal" id="kontakt">
+      <h2>Kontakt</h2>
+      <div class="section-line"></div>
+      <p class="lead">Anmerkungen, Fragen oder einfach ein nettes Wort:</p>
+      <a class="contact-email" href="mailto:office@lennoy.at">office@lennoy.at</a>
+    </section>
 
-    <section class="panel" id="impressum"><h2>Impressum & Datenschutz</h2><div class="legal">Impressum
+    <!-- ── IMPRESSUM ──────────────────────────────── -->
+    <section class="panel reveal" id="impressum">
+      <h2>Impressum &amp; Datenschutz</h2>
+      <div class="section-line"></div>
+      <div class="legal">Impressum
 Peter Lenhart
 Büschendorf 4d
 8786 Rottenmann
@@ -95,13 +556,86 @@ Der Schutz Ihrer persönlichen Daten ist wichtig. Diese Website verarbeitet pers
 Beim Besuch dieser Website können durch den Hostinganbieter automatisch technische Daten verarbeitet werden, zum Beispiel IP-Adresse, Browserinformationen oder Zugriffszeitpunkt.
 Diese Website kann Links zu externen Plattformen enthalten, darunter YouTube, Instagram, Facebook, Google Play Store und Apple App Store.
 Beim Aufrufen externer Links gelten die Datenschutzbestimmungen der jeweiligen Plattformen.
-Kontaktaufnahme per E-Mail erfolgt freiwillig durch den Nutzer. Es werden keine personenbezogenen Daten verkauft oder weitergegeben.</div></section>
+Kontaktaufnahme per E-Mail erfolgt freiwillig durch den Nutzer. Es werden keine personenbezogenen Daten verkauft oder weitergegeben.</div>
+    </section>
+
   </main>
-  <footer class="foot">© LENNOY · Pinsel · Bits · Bytes</footer>
+
+  <!-- ── FOOTER ─────────────────────────────────── -->
+  <footer class="foot">
+    © LENNOY &nbsp;·&nbsp; Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes
+    <span class="foot-line"></span>
+  </footer>
+
   <script>
-    function toggleMenu(force){const m=document.getElementById('menu'); if(force===false)m.classList.remove('open'); else m.classList.toggle('open')}
-    function toggleSub(){document.getElementById('sub').classList.toggle('open')}
-    function toggleAudio(id,btn){document.querySelectorAll('audio').forEach(a=>{if(a.id!==id){a.pause(); const b=a.parentElement.querySelector('button'); if(b)b.textContent='Play'}}); const a=document.getElementById(id); if(a.paused){a.play();btn.textContent='Pause'}else{a.pause();btn.textContent='Play'}}
+    /* ── Hamburger-Menü ── */
+    function toggleMenu(force) {
+      const m = document.getElementById('menu');
+      if (force === false) m.classList.remove('open');
+      else m.classList.toggle('open');
+    }
+    function toggleSub() {
+      document.getElementById('sub').classList.toggle('open');
+    }
+    document.addEventListener('click', e => {
+      const menu = document.getElementById('menu');
+      const hamb = document.querySelector('.hamb-fixed');
+      if (menu.classList.contains('open') && !menu.contains(e.target) && !hamb.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
+
+    /* ── Accordion ── */
+    function toggleAcc(btn) {
+      const body    = btn.nextElementSibling;
+      const isOpen  = btn.classList.contains('open');
+      // alle schließen
+      document.querySelectorAll('.acc-trigger').forEach(b => {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      // dieses öffnen wenn es zu war
+      if (!isOpen) {
+        btn.classList.add('open');
+        body.classList.add('open');
+      }
+    }
+
+    /* Accordion über Nav-Link öffnen */
+    function openAcc(id) {
+      const btn = document.getElementById(id);
+      if (btn) {
+        // kurze Verzögerung damit Scroll zuerst passiert
+        setTimeout(() => toggleAcc(btn), 300);
+      }
+    }
+
+    /* ── Audio Player ── */
+    function toggleAudio(id, btn) {
+      document.querySelectorAll('audio').forEach(a => {
+        if (a.id !== id) {
+          a.pause();
+          const b = a.parentElement.querySelector('.play');
+          if (b) { b.textContent = '▶'; b.classList.remove('active'); }
+        }
+      });
+      const a = document.getElementById(id);
+      if (a.paused) {
+        a.play().catch(() => {});
+        btn.textContent = '⏸'; btn.classList.add('active');
+      } else {
+        a.pause();
+        btn.textContent = '▶'; btn.classList.remove('active');
+      }
+    }
+
+    /* ── Scroll Reveal ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   </script>
 </body>
 </html>
