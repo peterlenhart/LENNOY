@@ -1,569 +1,413 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
   <title>LENNOY | Pinsel · Bits · Bytes</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── VARIABLES & RESET ───────────────────── */
-    :root {
-      --bg:         #090806;
-      --gold:       #d8a84a;
-      --gold-lt:    #f2d47e;
-      --gold-dk:    #9a6415;
-      --beige:      #ead8b7;
-      --text:       #f4ead9;
-      --muted:      #c7b99f;
-      --panel:      rgba(13,9,6,.90);
-      --line:       rgba(216,174,90,.22);
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { overflow-x: hidden; }
 
     body {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 17px;
-      line-height: 1.68;
-      color: var(--text);
-      background: var(--bg) url('lennoy_hintergr.webp') center / cover fixed no-repeat;
-    }
-    body::before {
-      content: "";
-      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      line-height: 1.7;
+      color: #f4ead9;
       background:
-        radial-gradient(ellipse 90% 44% at 50% -5%, rgba(216,174,90,.11), transparent),
-        radial-gradient(ellipse 55% 55% at 95% 85%, rgba(180,90,10,.08), transparent),
-        linear-gradient(180deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.80) 100%);
+        radial-gradient(ellipse 80% 40% at 50% 0%,   rgba(180,120,40,.35) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 15% 100%,  rgba(120,70,20,.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 100%,  rgba(120,70,20,.25) 0%, transparent 60%),
+        linear-gradient(160deg, #1a1208 0%, #0d0b07 40%, #080604 100%);
     }
-    body > * { position: relative; z-index: 1; }
+
     a { color: inherit; text-decoration: none; }
 
-    /* ── ANIMATIONS ──────────────────────────── */
-    @keyframes shimmer {
-      0%   { background-position: -250% center; }
-      100% { background-position:  250% center; }
-    }
-    .shimmer {
-      background: linear-gradient(90deg,
-        var(--gold-dk) 0%, var(--gold-lt) 22%, #fff8e0 38%, var(--gold-lt) 54%, var(--gold-dk) 100%);
-      background-size: 280% auto;
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 5.5s linear infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-9px); }
-    }
-    @keyframes glowPulse {
-      0%, 100% { opacity: .65; transform: scale(1); }
-      50%       { opacity: 1;   transform: scale(1.06); }
-    }
-    @keyframes navIn {
-      from { opacity:0; transform:scale(.92); }
-      to   { opacity:1; transform:scale(1); }
-    }
-
-    /* ── SCROLL REVEAL ───────────────────────── */
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity .65s ease, transform .65s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-
-
-
-    /* ── NAV DRAWER ──────────────────────────── */
-    nav {
-      position: fixed; right: 14px; top: 20px;
-      width: min(310px, calc(100vw - 24px));
-      background: rgba(9,7,5,.97);
-      border: 1px solid var(--line); border-radius: 18px;
-      padding: 10px; box-shadow: 0 28px 80px #000, 0 0 50px rgba(216,174,90,.06);
-      display: none; z-index: 60; transform-origin: top right;
-    }
-    nav.open { display: block; animation: navIn .22s ease; }
-    nav a, nav button {
-      display: block; width: 100%; text-align: left;
-      padding: 11px 15px; border: 0; border-radius: 9px;
-      background: none; color: var(--text);
-      font-family: 'Cinzel', serif; font-size: .8rem;
-      letter-spacing: .1em; cursor: pointer;
-      transition: background .18s, color .18s;
-    }
-    nav a:hover, nav button:hover { background: rgba(216,174,90,.1); color: var(--gold); }
-    .sub { display: none; padding-left: 8px; }
-    .sub.open { display: block; }
-    .sub a { font-size: .76rem; color: var(--muted); }
-
-    /* ── LAYOUT ──────────────────────────────── */
-    .wrap { width: min(1100px, 92vw); margin: 0 auto; text-align: center; }
-
-    /* ── HERO ────────────────────────────────── */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 48px 20px 36px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .hamb-hero {
-      margin-top: 22px;
-      width: 48px; height: 40px;
-      border: 1px solid var(--line); border-radius: 9px;
-      background: rgba(9,7,5,.7);
-      backdrop-filter: blur(10px);
-      cursor: pointer;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: center; gap: 5px;
-      transition: background .2s, border-color .2s;
-    }
-    .hamb-hero:hover { background: rgba(216,174,90,.15); border-color: var(--gold); }
-    .hamb-hero span { display: block; width: 22px; height: 2px; background: var(--beige); border-radius: 2px; }
-    .hero::before {
-      content: ""; position: absolute; top: 60%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 700px; height: 260px;
-      background: radial-gradient(ellipse, rgba(216,174,90,.1), transparent 70%);
-      pointer-events: none;
-    }
-    .logo {
-      display: block;
+    /* ── WRAPPER ── */
+    .wrap {
+      width: 92%;
+      max-width: 800px;
       margin: 0 auto;
-      width: min(130px, 32vw);
-      height: auto;
-      position: relative;
-      z-index: 2;
-      filter: drop-shadow(0 0 28px rgba(216,174,90,.55)) drop-shadow(0 10px 32px #000);
-      animation: float 4.5s ease-in-out infinite;
-    }
-    .hero-tag {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1.05rem, 3.2vw, 1.55rem);
-      font-weight: 600;
-      letter-spacing: .12em;
-      color: var(--beige);
-      text-transform: uppercase;
-      margin-top: 14px;
-      text-shadow: 0 2px 12px rgba(0,0,0,.8);
-    }
-    .ornament {
-      margin: 14px auto 0; width: fit-content;
-      display: flex; align-items: center; gap: 12px;
-      color: var(--gold); opacity: .45; font-size: .68rem; letter-spacing: .3em;
-    }
-    .ornament::before, .ornament::after {
-      content: ""; width: 70px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
     }
 
-    /* ── PANELS ──────────────────────────────── */
-    .panel {
+    /* ── HERO ── */
+    .hero {
+      padding: 50px 0 36px;
+      text-align: center;
+    }
+
+    .hero img.logo {
+      display: block;
+      width: 140px;
+      height: auto;
+      margin: 0 auto 16px auto;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.8));
+    }
+
+    .slogan {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      font-weight: 600;
+      letter-spacing: .1em;
+      color: #ead8b7;
+      margin-bottom: 20px;
+    }
+
+    /* ── HAMBURGER ── */
+    .hamb {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 48px;
+      height: 40px;
+      border: 1px solid rgba(216,174,90,.4);
+      border-radius: 8px;
+      background: rgba(0,0,0,.5);
+      cursor: pointer;
+    }
+    .hamb span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #ead8b7;
+      border-radius: 2px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: none;
+      position: fixed;
+      top: 16px; right: 16px;
+      width: min(300px, calc(100vw - 32px));
+      background: rgba(9,7,5,.97);
+      border: 1px solid rgba(216,174,90,.25);
+      border-radius: 14px;
+      padding: 8px;
+      z-index: 100;
+      box-shadow: 0 20px 60px rgba(0,0,0,.8);
+    }
+    nav.open { display: block; }
+    nav a, nav button {
+      display: block;
+      width: 100%;
+      padding: 11px 14px;
+      border: 0;
+      border-radius: 8px;
       background: none;
+      color: #f4ead9;
+      font-family: 'Cinzel', serif;
+      font-size: .82rem;
+      letter-spacing: .08em;
+      text-align: left;
+      cursor: pointer;
+    }
+    nav a:hover, nav button:hover {
+      background: rgba(216,174,90,.1);
+      color: #d8a84a;
+    }
+    .sub { display: none; padding-left: 10px; }
+    .sub.open { display: block; }
+    .sub a { font-size: .76rem; color: #c7b99f; }
+
+    /* ── TRENNLINIE ── */
+    .linie {
       border: none;
-      border-radius: 0;
-      padding: clamp(22px, 4vw, 44px) 0;
+      border-top: 1px solid rgba(216,174,90,.15);
       margin: 10px 0;
-      box-shadow: none;
+    }
+
+    /* ── SEKTIONEN ── */
+    section {
+      padding: 28px 0;
       border-bottom: 1px solid rgba(216,174,90,.12);
     }
-    .panel:last-of-type { border-bottom: none; }
+    section:last-of-type { border-bottom: none; }
+
     h2 {
-      font-family: 'Cinzel', serif; color: var(--gold);
-      font-size: clamp(1.55rem, 3.8vw, 2.6rem);
-      letter-spacing: .1em; margin-bottom: 14px;
+      font-family: 'Cinzel', serif;
+      color: #d8a84a;
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      letter-spacing: .08em;
+      margin-bottom: 12px;
     }
+
     .h2-lennoy {
-      font-size: clamp(1rem, 5.2vw, 2.6rem); white-space: nowrap;
-    }
-    .lead { font-size: 1.1rem; line-height: 1.72; color: var(--beige); }
-    .section-line {
-      width: 100%; height: 1px; margin: 4px 0 18px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: .2;
+      font-size: clamp(1rem, 4.8vw, 2.2rem);
+      white-space: nowrap;
     }
 
-    /* ── KIPP CLUB PROMO ─────────────────────── */
-    .promo {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 40px; align-items: center;
+    .lead {
+      font-size: 1.1rem;
+      color: #ead8b7;
+      line-height: 1.72;
     }
-    .promo-glow { position: relative; border-radius: 22px; }
-    .promo-glow::before {
-      content: ""; position: absolute; inset: -24px;
-      background: radial-gradient(ellipse, rgba(216,174,90,.22), transparent 68%);
-      border-radius: 36px; pointer-events: none;
-      animation: glowPulse 3.2s ease-in-out infinite;
-    }
-    .promo-glow img {
-      display: block; width: 100%; border-radius: 20px;
-      border: 1px solid rgba(216,174,90,.35);
-      box-shadow: 0 32px 90px rgba(0,0,0,.75), 0 0 50px rgba(216,174,90,.18);
-      position: relative; z-index: 1;
-    }
-    .badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      margin-bottom: 14px; padding: 7px 16px;
-      border: 1px solid rgba(216,174,90,.38); border-radius: 999px;
-      color: var(--gold); background: rgba(216,174,90,.07);
-      font-family: 'Cinzel', serif; font-size: .72rem; letter-spacing: .12em;
-    }
-    .badge::before { content: "✦"; font-size: .62rem; }
-    .stores { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
-    .store {
-      display: block; border-radius: 11px; overflow: hidden;
-      border: 1px solid var(--line); opacity: .88;
-      transition: transform .22s, box-shadow .22s, border-color .22s, opacity .22s;
-    }
-    .store:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 10px 36px rgba(0,0,0,.55), 0 0 22px rgba(216,174,90,.22);
-      border-color: var(--gold); opacity: 1;
-    }
-    .store img { display: block; height: 50px; width: auto; }
 
-    /* ── ACCORDION ───────────────────────────── */
-    .accordion { margin-top: 8px; }
-    .acc-item { border-bottom: 1px solid var(--line); }
+    /* ── KIPP CLUB ── */
+    .promo-bild {
+      display: block;
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      margin: 0 auto 20px auto;
+      border-radius: 16px;
+      border: 1px solid rgba(216,174,90,.3);
+      box-shadow: 0 16px 60px rgba(0,0,0,.7);
+    }
+
+    .stores {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .stores img {
+      height: 48px;
+      width: auto;
+      border-radius: 8px;
+      border: 1px solid rgba(216,174,90,.3);
+    }
+
+    /* ── AKKORDEON ── */
+    .acc-item {
+      border-bottom: 1px solid rgba(216,174,90,.15);
+    }
     .acc-item:last-child { border-bottom: none; }
 
-    .acc-trigger {
-      width: 100%; display: flex; justify-content: space-between; align-items: center;
-      padding: 20px 4px; border: 0; background: none;
-      color: var(--text); cursor: pointer; text-align: left;
+    .acc-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      border: none;
+      background: none;
+      color: #f4ead9;
       font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 3vw, 1.35rem);
-      letter-spacing: .08em;
-      transition: color .2s;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      letter-spacing: .06em;
+      text-align: left;
+      cursor: pointer;
     }
-    .acc-trigger:hover { color: var(--gold); }
-    .acc-trigger.open  { color: var(--gold); }
+    .acc-btn:hover { color: #d8a84a; }
+    .acc-btn.open  { color: #d8a84a; }
+    .acc-sub-text  { font-size: .78rem; color: #c7b99f; font-family: 'EB Garamond', serif; display: block; }
+    .acc-plus { font-size: 1.3rem; color: #d8a84a; transition: transform .3s; flex-shrink: 0; margin-left: 10px; }
+    .acc-btn.open .acc-plus { transform: rotate(45deg); }
 
-    .acc-sub { font-size: .78rem; color: var(--muted); font-family: 'EB Garamond', serif;
-               letter-spacing: .04em; display: block; margin-top: 3px; }
-
-    .acc-icon {
-      font-size: 1.4rem; color: var(--gold); opacity: .6;
-      flex-shrink: 0; margin-left: 12px;
-      transition: transform .35s ease;
-      line-height: 1;
+    .acc-inhalt {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .45s ease;
     }
-    .acc-trigger.open .acc-icon { transform: rotate(45deg); opacity: 1; }
+    .acc-inhalt.open { max-height: 1000px; }
+    .acc-inner { padding-bottom: 20px; }
 
-    .acc-body {
-      max-height: 0; overflow: hidden;
-      transition: max-height .5s ease, padding .35s ease;
-      padding-bottom: 0;
-    }
-    .acc-body.open {
-      max-height: 1400px;
-      padding-bottom: 28px;
-    }
-
-    /* ── GALLERY ─────────────────────────────── */
-    .gallery {
+    /* ── GALERIE PLATZHALTER ── */
+    .galerie {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
-      gap: 14px; margin-top: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
     }
     .ph {
       aspect-ratio: 3/4;
-      border: 1px dashed rgba(216,174,90,.28); border-radius: 14px;
-      background: rgba(255,255,255,.025);
-      display: flex; flex-direction: column;
-      justify-content: flex-end; align-items: center;
-      padding: 12px; color: var(--muted); font-size: .78rem;
-      text-align: center; position: relative; overflow: hidden;
-      transition: border-color .2s, background .2s;
-    }
-    .ph:hover { border-color: rgba(216,174,90,.55); background: rgba(255,255,255,.05); }
-    .ph::before {
-      content: ""; position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%,-50%);
-      width: 40px; height: 40px; opacity: .12;
-      background: var(--gold); border-radius: 50%;
+      border: 1px dashed rgba(216,174,90,.3);
+      border-radius: 12px;
+      background: rgba(255,255,255,.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c7b99f;
+      font-size: .8rem;
+      text-align: center;
+      padding: 10px;
     }
 
-    /* ── MUSIC PLAYER ────────────────────────── */
-    .music-row {
-      display: grid; grid-template-columns: 62px 1fr auto;
-      gap: 16px; align-items: center;
-      padding: 14px; border-radius: 13px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.025); margin-top: 12px;
-      transition: border-color .2s, background .2s;
+    /* ── MUSIK ── */
+    .musik-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(216,174,90,.1);
     }
-    .music-row:hover { border-color: rgba(216,174,90,.35); background: rgba(255,255,255,.045); }
-    .thumb {
-      width: 62px; height: 62px; border-radius: 10px;
-      object-fit: cover; border: 1px solid var(--line);
-      background: rgba(216,174,90,.08);
-    }
-    .song-title { font-family: 'Cinzel', serif; font-size: .88rem; letter-spacing: .04em; }
-    .song-file  { color: var(--muted); font-size: .82rem; }
-    .play {
-      width: 42px; height: 42px; border-radius: 50%;
-      border: 1px solid var(--line);
-      background: rgba(216,174,90,.08); color: var(--gold);
-      cursor: pointer; font-size: .78rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, border-color .2s;
-    }
-    .play:hover  { background: rgba(216,174,90,.2); border-color: var(--gold); }
-    .play.active { background: rgba(216,174,90,.22); border-color: var(--gold); }
-
-    /* ── ABOUT ───────────────────────────────── */
-    .about-text p + p { margin-top: .9em; }
-
-    /* ── CONTACT ─────────────────────────────── */
-    .contact-email {
-      display: inline-block; margin-top: 12px;
-      padding: 12px 30px; border-radius: 10px;
-      border: 1px solid var(--gold); color: var(--gold);
-      background: rgba(216,174,90,.06);
-      font-family: 'Cinzel', serif; letter-spacing: .1em; font-size: .9rem;
-      transition: background .2s, box-shadow .2s;
-    }
-    .contact-email:hover {
-      background: rgba(216,174,90,.14);
-      box-shadow: 0 0 28px rgba(216,174,90,.22);
+    .play-btn {
+      border: 1px solid rgba(216,174,90,.4);
+      border-radius: 50%;
+      width: 40px; height: 40px;
+      background: rgba(216,174,90,.1);
+      color: #d8a84a;
+      cursor: pointer;
+      font-size: .8rem;
+      flex-shrink: 0;
     }
 
-    /* ── LEGAL ───────────────────────────────── */
-    .legal {
-      white-space: pre-line; color: var(--muted);
-      line-height: 1.75; font-size: .92rem;
+    /* ── KONTAKT ── */
+    .email-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 11px 28px;
+      border: 1px solid #d8a84a;
+      border-radius: 8px;
+      color: #d8a84a;
+      font-family: 'Cinzel', serif;
+      letter-spacing: .08em;
+    }
+    .email-link:hover { background: rgba(216,174,90,.1); }
+
+    /* ── IMPRESSUM ── */
+    .legal { white-space: pre-line; color: #c7b99f; font-size: .92rem; line-height: 1.75; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 40px 0 70px;
+      color: #c7b99f;
+      font-family: 'Cinzel', serif;
+      font-size: .74rem;
+      letter-spacing: .2em;
     }
 
-    /* ── FOOTER ──────────────────────────────── */
-    .foot {
-      padding: 46px 0 80px; text-align: center;
-      color: var(--muted); font-family: 'Cinzel', serif;
-      font-size: .74rem; letter-spacing: .22em;
-    }
-    .foot-line {
-      display: block; width: 60px; height: 1px; margin: 10px auto 0;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: .35;
-    }
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s, transform .6s; }
+    .reveal.sichtbar { opacity: 1; transform: none; }
 
-    /* ── RESPONSIVE ──────────────────────────── */
-    /* ── PC / Querformat ── */
-    @media (min-width: 1024px) {
-      .wrap { width: min(860px, 88vw); }
-      .hero { padding: 70px 0 54px; }
-      .logo { width: 160px; }
-      .promo { gap: 60px; }
-      .acc-trigger { font-size: 1.4rem; }
-    }
-    @media (max-width: 760px) {
-      .promo { grid-template-columns: 1fr; }
-      .promo-glow { max-width: 300px; margin: 0 auto; }
-      .music-row { grid-template-columns: 52px 1fr auto; }
-      .thumb { width: 52px; height: 52px; }
-    }
-    @media (max-width: 440px) {
-      .stores { flex-direction: column; }
-      .store img { height: 46px; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- ── NAVIGATION ──────────────────────────────── -->
+  <!-- NAV -->
   <nav id="menu">
-    <a href="#home"      onclick="toggleMenu(false)">Start</a>
-    <button onclick="toggleSub()">Rubriken &nbsp;▾</button>
+    <a href="#home"      onclick="menuZu()">Start</a>
+    <button            onclick="subToggle()">Rubriken ▾</button>
     <div class="sub" id="sub">
-      <a href="#rubriken" onclick="openAcc('acc-malerei');   toggleMenu(false)">Klassische Malerei</a>
-      <a href="#rubriken" onclick="openAcc('acc-karikaturen');toggleMenu(false)">Karikaturen</a>
-      <a href="#rubriken" onclick="openAcc('acc-fotorealism');toggleMenu(false)">Fotorealismus</a>
-      <a href="#rubriken" onclick="openAcc('acc-murals');    toggleMenu(false)">Murals</a>
-      <a href="#rubriken" onclick="openAcc('acc-musik');     toggleMenu(false)">KI-Musik</a>
+      <a href="#rubriken" onclick="akkOeffnen('r-malerei');   menuZu()">Klassische Malerei</a>
+      <a href="#rubriken" onclick="akkOeffnen('r-karikat');   menuZu()">Karikaturen</a>
+      <a href="#rubriken" onclick="akkOeffnen('r-foto');      menuZu()">Fotorealismus</a>
+      <a href="#rubriken" onclick="akkOeffnen('r-murals');    menuZu()">Murals</a>
+      <a href="#rubriken" onclick="akkOeffnen('r-musik');     menuZu()">KI-Musik</a>
     </div>
-    <a href="#lennoy"    onclick="toggleMenu(false)">LENNOY | P. LENHART</a>
-    <a href="#kontakt"   onclick="toggleMenu(false)">Kontakt</a>
-    <a href="#impressum" onclick="toggleMenu(false)">Impressum & Datenschutz</a>
+    <a href="#lennoy"    onclick="menuZu()">LENNOY | P. LENHART</a>
+    <a href="#kontakt"   onclick="menuZu()">Kontakt</a>
+    <a href="#impressum" onclick="menuZu()">Impressum & Datenschutz</a>
   </nav>
 
-  <main class="wrap">
+  <div class="wrap">
 
-    <!-- ── HERO ───────────────────────────────────── -->
-    <section class="hero" id="home">
+    <!-- HERO -->
+    <div class="hero" id="home">
       <img class="logo" src="icon-512.webp" alt="LENNOY Logo">
-      <div class="hero-tag">Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</div>
-      <div class="ornament">✦</div>
-      <button class="hamb-hero" aria-label="Menü öffnen" onclick="toggleMenu()">
+      <div class="slogan">Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</div>
+      <button class="hamb" onclick="menuToggle()" aria-label="Menü">
         <span></span><span></span><span></span>
       </button>
-    </section>
+    </div>
 
-    <!-- ── KIPP CLUB ──────────────────────────────── -->
-    <section class="panel promo reveal" id="kippclub">
-      <div class="promo-glow">
-        <img src="kippclub_start.webp" alt="KIPP CLUB – Das 3D-Kippspiel">
-      </div>
-      <div>
-        <span class="badge">Jetzt im Play Store &amp; App Store</span>
-        <h2>KIPP CLUB</h2>
-        <p class="lead">
-          <strong>Das 3D-Kippspiel.</strong><br>
-          Würfel in der Box. Würfelfelder merken, Randfelder treffen.
-          Die Herausforderung meistern.
-        </p>
-        <p style="color:var(--muted);font-size:.95rem;margin-top:8px;">
-          Merken · Logik · Kopfzerbrechen
-        </p>
-        <div class="stores">
-          <a class="store" href="#" aria-label="Jetzt bei Google Play">
-            <img src="GooglePlay.webp" alt="Jetzt bei Google Play">
-          </a>
-          <a class="store" href="#" aria-label="Laden im App Store">
-            <img src="AppStore.webp" alt="Laden im App Store">
-          </a>
-        </div>
+    <!-- KIPP CLUB -->
+    <section class="reveal" id="kippclub">
+      <img class="promo-bild" src="kippclub_start.webp" alt="KIPP CLUB">
+      <h2>KIPP CLUB</h2>
+      <p class="lead"><strong>Das 3D-Kippspiel.</strong><br>
+      Würfel in der Box. Würfelfelder merken, Randfelder treffen. Die Herausforderung meistern.</p>
+      <div class="stores">
+        <a href="#"><img src="GooglePlay.webp" alt="Google Play"></a>
+        <a href="#"><img src="AppStore.webp"   alt="App Store"></a>
       </div>
     </section>
 
-    <!-- ── RUBRIKEN ACCORDION ─────────────────────── -->
-    <section class="panel reveal" id="rubriken">
+    <!-- RUBRIKEN AKKORDEON -->
+    <section class="reveal" id="rubriken">
       <h2>Rubriken</h2>
-      <div class="section-line"></div>
-      <div class="accordion">
+      <hr class="linie">
 
-        <!-- Klassische Malerei -->
-        <div class="acc-item">
-          <button class="acc-trigger" id="acc-malerei" onclick="toggleAcc(this)">
-            <span>
-              Klassische Malerei
-              <span class="acc-sub">Acryl · Aquarell · freie Arbeiten</span>
-            </span>
-            <span class="acc-icon">+</span>
-          </button>
-          <div class="acc-body">
-            <div class="gallery">
-              <div class="ph">bild_klass.webp</div>
-              <div class="ph">hunger_klass.webp</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Karikaturen -->
-        <div class="acc-item">
-          <button class="acc-trigger" id="acc-karikaturen" onclick="toggleAcc(this)">
-            <span>
-              Karikaturen
-              <span class="acc-sub">Aquarell</span>
-            </span>
-            <span class="acc-icon">+</span>
-          </button>
-          <div class="acc-body">
-            <div class="gallery">
-              <div class="ph">hupfburg_kari.webp</div>
-              <div class="ph">portrait_kari.webp</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fotorealismus -->
-        <div class="acc-item">
-          <button class="acc-trigger" id="acc-fotorealism" onclick="toggleAcc(this)">
-            <span>
-              Fotorealismus
-              <span class="acc-sub">Pastell</span>
-            </span>
-            <span class="acc-icon">+</span>
-          </button>
-          <div class="acc-body">
-            <div class="gallery">
-              <div class="ph">schwimmer_real.webp</div>
-              <div class="ph">motiv_real.webp</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Murals -->
-        <div class="acc-item">
-          <button class="acc-trigger" id="acc-murals" onclick="toggleAcc(this)">
-            <span>
-              Murals
-              <span class="acc-sub">Wandbilder</span>
-            </span>
-            <span class="acc-icon">+</span>
-          </button>
-          <div class="acc-body">
-            <div class="gallery">
-              <div class="ph">wandbild_mural.webp</div>
-              <div class="ph">fassade_mural.webp</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- KI-Musik -->
-        <div class="acc-item">
-          <button class="acc-trigger" id="acc-musik" onclick="toggleAcc(this)">
-            <span>
-              KI-Musik
-              <span class="acc-sub">Songs mit Player</span>
-            </span>
-            <span class="acc-icon">+</span>
-          </button>
-          <div class="acc-body">
-            <p class="lead" style="margin-bottom:4px;">Platzhalter für Songs – später MP3-Dateien und Thumbnails ersetzen.</p>
-            <div class="music-row">
-              <img class="thumb" src="song1_thumb.webp" alt="Song 1">
-              <div>
-                <div class="song-title">Song 1</div>
-                <div class="song-file">song1.mp3</div>
-              </div>
-              <button class="play" onclick="toggleAudio('a1',this)">▶</button>
-              <audio id="a1" src="song1.mp3"></audio>
-            </div>
-            <div class="music-row">
-              <img class="thumb" src="song2_thumb.webp" alt="Song 2">
-              <div>
-                <div class="song-title">Song 2</div>
-                <div class="song-file">song2.mp3</div>
-              </div>
-              <button class="play" onclick="toggleAudio('a2',this)">▶</button>
-              <audio id="a2" src="song2.mp3"></audio>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /accordion -->
-    </section>
-
-    <!-- ── LENNOY | P. LENHART (unten) ────────────── -->
-    <section class="panel reveal" id="lennoy">
-      <h2 class="h2-lennoy">LENNOY | P. LENHART</h2>
-      <div class="section-line"></div>
-      <div class="lead about-text">
-        <p>Unter dem Namen LENNOY verbindet Peter Lenhart klassische Kreativität mit spielerischen Ideen und digitaler Gestaltung.</p>
-        <p>Schon früh faszinierte ihn die Welt großer Karikaturisten wie Erich Sokol. Später arbeitete er selbst als Karikaturist für Zeitschriften und Privatkunden.</p>
-        <p>Angeregt von Künstlern wie Gottfried Helnwein entstanden fotorealistische Arbeiten, daneben auch surrealistische Acrylmalerei, abstrakte Aquarelle und grafische Projekte.</p>
-        <p>Viele Spiele entstanden zunächst als physische Holzmodelle für Freunde und Familie. KIPP CLUB ist die digitale Weiterentwicklung eines Kippspiels mit Holzwürfeln und Holzbox.</p>
+      <div class="acc-item">
+        <button class="acc-btn" id="r-malerei" onclick="akkToggle(this)">
+          <span>Klassische Malerei<span class="acc-sub-text">Acryl · Aquarell · freie Arbeiten</span></span>
+          <span class="acc-plus">+</span>
+        </button>
+        <div class="acc-inhalt"><div class="acc-inner">
+          <div class="galerie"><div class="ph">bild_klass.webp</div><div class="ph">hunger_klass.webp</div></div>
+        </div></div>
       </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" id="r-karikat" onclick="akkToggle(this)">
+          <span>Karikaturen<span class="acc-sub-text">Aquarell</span></span>
+          <span class="acc-plus">+</span>
+        </button>
+        <div class="acc-inhalt"><div class="acc-inner">
+          <div class="galerie"><div class="ph">hupfburg_kari.webp</div><div class="ph">portrait_kari.webp</div></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" id="r-foto" onclick="akkToggle(this)">
+          <span>Fotorealismus<span class="acc-sub-text">Pastell</span></span>
+          <span class="acc-plus">+</span>
+        </button>
+        <div class="acc-inhalt"><div class="acc-inner">
+          <div class="galerie"><div class="ph">schwimmer_real.webp</div><div class="ph">motiv_real.webp</div></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" id="r-murals" onclick="akkToggle(this)">
+          <span>Murals<span class="acc-sub-text">Wandbilder</span></span>
+          <span class="acc-plus">+</span>
+        </button>
+        <div class="acc-inhalt"><div class="acc-inner">
+          <div class="galerie"><div class="ph">wandbild_mural.webp</div><div class="ph">fassade_mural.webp</div></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-btn" id="r-musik" onclick="akkToggle(this)">
+          <span>KI-Musik<span class="acc-sub-text">Songs mit Player</span></span>
+          <span class="acc-plus">+</span>
+        </button>
+        <div class="acc-inhalt"><div class="acc-inner">
+          <div class="musik-row">
+            <button class="play-btn" onclick="audioToggle('a1',this)">▶</button>
+            <div><strong>Song 1</strong><br><small style="color:#c7b99f">song1.mp3</small></div>
+            <audio id="a1" src="song1.mp3"></audio>
+          </div>
+          <div class="musik-row">
+            <button class="play-btn" onclick="audioToggle('a2',this)">▶</button>
+            <div><strong>Song 2</strong><br><small style="color:#c7b99f">song2.mp3</small></div>
+            <audio id="a2" src="song2.mp3"></audio>
+          </div>
+        </div></div>
+      </div>
+
     </section>
 
-    <!-- ── KONTAKT ────────────────────────────────── -->
-    <section class="panel reveal" id="kontakt">
+    <!-- LENNOY -->
+    <section class="reveal" id="lennoy">
+      <h2 class="h2-lennoy">LENNOY | P. LENHART</h2>
+      <hr class="linie">
+      <p class="lead">Unter dem Namen LENNOY verbindet Peter Lenhart klassische Kreativität mit spielerischen Ideen und digitaler Gestaltung.</p><br>
+      <p class="lead">Schon früh faszinierte ihn die Welt großer Karikaturisten wie Erich Sokol. Später arbeitete er selbst als Karikaturist für Zeitschriften und Privatkunden.</p><br>
+      <p class="lead">Angeregt von Künstlern wie Gottfried Helnwein entstanden fotorealistische Arbeiten, daneben auch surrealistische Acrylmalerei, abstrakte Aquarelle und grafische Projekte.</p><br>
+      <p class="lead">Viele Spiele entstanden zunächst als physische Holzmodelle. KIPP CLUB ist die digitale Weiterentwicklung eines Kippspiels mit Holzwürfeln und Holzbox.</p>
+    </section>
+
+    <!-- KONTAKT -->
+    <section class="reveal" id="kontakt">
       <h2>Kontakt</h2>
-      <div class="section-line"></div>
+      <hr class="linie">
       <p class="lead">Anmerkungen, Fragen oder einfach ein nettes Wort:</p>
-      <a class="contact-email" href="mailto:office@lennoy.at">office@lennoy.at</a>
+      <a class="email-link" href="mailto:office@lennoy.at">office@lennoy.at</a>
     </section>
 
-    <!-- ── IMPRESSUM ──────────────────────────────── -->
-    <section class="panel reveal" id="impressum">
+    <!-- IMPRESSUM -->
+    <section class="reveal" id="impressum">
       <h2>Impressum &amp; Datenschutz</h2>
-      <div class="section-line"></div>
+      <hr class="linie">
       <div class="legal">Impressum
 Peter Lenhart
 Büschendorf 4d
@@ -571,94 +415,73 @@ Büschendorf 4d
 Österreich
 E-Mail: office@lennoy.at
 
-Verantwortlich für Inhalt und Gestaltung dieser Website: Peter Lenhart
+Verantwortlich für Inhalt und Gestaltung: Peter Lenhart
 Diese Website dient der Präsentation kreativer Projekte, Kunst, Musik und digitaler Inhalte.
 
 Datenschutz
-Der Schutz Ihrer persönlichen Daten ist wichtig. Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch notwendigen Umfang.
-Beim Besuch dieser Website können durch den Hostinganbieter automatisch technische Daten verarbeitet werden, zum Beispiel IP-Adresse, Browserinformationen oder Zugriffszeitpunkt.
-Diese Website kann Links zu externen Plattformen enthalten, darunter YouTube, Instagram, Facebook, Google Play Store und Apple App Store.
-Beim Aufrufen externer Links gelten die Datenschutzbestimmungen der jeweiligen Plattformen.
-Kontaktaufnahme per E-Mail erfolgt freiwillig durch den Nutzer. Es werden keine personenbezogenen Daten verkauft oder weitergegeben.</div>
+Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch notwendigen Umfang. Beim Besuch können durch den Hostinganbieter technische Daten verarbeitet werden (IP-Adresse, Browserinformationen, Zugriffszeitpunkt). Die Website enthält Links zu externen Plattformen — es gelten deren Datenschutzbestimmungen. Kontaktaufnahme per E-Mail erfolgt freiwillig. Es werden keine Daten verkauft oder weitergegeben.</div>
     </section>
 
-  </main>
+  </div><!-- /wrap -->
 
-  <!-- ── FOOTER ─────────────────────────────────── -->
-  <footer class="foot">
-    © LENNOY &nbsp;·&nbsp; Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes
-    <span class="foot-line"></span>
-  </footer>
+  <footer>© LENNOY &nbsp;·&nbsp; Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</footer>
 
   <script>
-    /* ── Hamburger-Menü ── */
-    function toggleMenu(force) {
-      const m = document.getElementById('menu');
-      if (force === false) m.classList.remove('open');
-      else m.classList.toggle('open');
+    function menuToggle() {
+      document.getElementById('menu').classList.toggle('open');
     }
-    function toggleSub() {
+    function menuZu() {
+      document.getElementById('menu').classList.remove('open');
+    }
+    function subToggle() {
       document.getElementById('sub').classList.toggle('open');
     }
-    document.addEventListener('click', e => {
-      const menu = document.getElementById('menu');
-      const hamb = document.querySelector('.hamb-hero');
+    document.addEventListener('click', function(e) {
+      var menu = document.getElementById('menu');
+      var hamb = document.querySelector('.hamb');
       if (menu.classList.contains('open') && !menu.contains(e.target) && !hamb.contains(e.target)) {
         menu.classList.remove('open');
       }
     });
 
-    /* ── Accordion ── */
-    function toggleAcc(btn) {
-      const body    = btn.nextElementSibling;
-      const isOpen  = btn.classList.contains('open');
-      // alle schließen
-      document.querySelectorAll('.acc-trigger').forEach(b => {
+    function akkToggle(btn) {
+      var inhalt = btn.nextElementSibling;
+      var war_offen = btn.classList.contains('open');
+      document.querySelectorAll('.acc-btn').forEach(function(b) {
         b.classList.remove('open');
         b.nextElementSibling.classList.remove('open');
       });
-      // dieses öffnen wenn es zu war
-      if (!isOpen) {
+      if (!war_offen) {
         btn.classList.add('open');
-        body.classList.add('open');
+        inhalt.classList.add('open');
       }
     }
 
-    /* Accordion über Nav-Link öffnen */
-    function openAcc(id) {
-      const btn = document.getElementById(id);
-      if (btn) {
-        // kurze Verzögerung damit Scroll zuerst passiert
-        setTimeout(() => toggleAcc(btn), 300);
-      }
+    function akkOeffnen(id) {
+      var btn = document.getElementById(id);
+      if (btn) { setTimeout(function(){ akkToggle(btn); }, 300); }
     }
 
-    /* ── Audio Player ── */
-    function toggleAudio(id, btn) {
-      document.querySelectorAll('audio').forEach(a => {
+    function audioToggle(id, btn) {
+      document.querySelectorAll('audio').forEach(function(a) {
         if (a.id !== id) {
           a.pause();
-          const b = a.parentElement.querySelector('.play');
-          if (b) { b.textContent = '▶'; b.classList.remove('active'); }
+          var b = a.parentElement.querySelector('.play-btn');
+          if (b) b.textContent = '▶';
         }
       });
-      const a = document.getElementById(id);
-      if (a.paused) {
-        a.play().catch(() => {});
-        btn.textContent = '⏸'; btn.classList.add('active');
-      } else {
-        a.pause();
-        btn.textContent = '▶'; btn.classList.remove('active');
-      }
+      var a = document.getElementById(id);
+      if (a.paused) { a.play().catch(function(){}); btn.textContent = '⏸'; }
+      else { a.pause(); btn.textContent = '▶'; }
     }
 
-    /* ── Scroll Reveal ── */
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('sichtbar'); io.unobserve(e.target); }
       });
     }, { threshold: 0.07 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
   </script>
+
 </body>
 </html>
