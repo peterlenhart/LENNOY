@@ -126,15 +126,24 @@
       pointer-events: none;
     }
     .logo {
+      display: block;
+      margin: 0 auto;
       width: min(130px, 32vw);
+      height: auto;
+      position: relative;
+      z-index: 2;
       filter: drop-shadow(0 0 28px rgba(216,174,90,.55)) drop-shadow(0 10px 32px #000);
       animation: float 4.5s ease-in-out infinite;
     }
     .hero-tag {
       font-family: 'Cinzel', serif;
-      font-size: clamp(.88rem, 2.4vw, 1.15rem);
-      letter-spacing: .3em; color: var(--muted); text-transform: uppercase;
-      margin-top: 12px;
+      font-size: clamp(1.05rem, 3.2vw, 1.55rem);
+      font-weight: 600;
+      letter-spacing: .12em;
+      color: var(--beige);
+      text-transform: uppercase;
+      margin-top: 14px;
+      text-shadow: 0 2px 12px rgba(0,0,0,.8);
     }
     .ornament {
       margin: 14px auto 0; width: fit-content;
