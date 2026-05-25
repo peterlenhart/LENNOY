@@ -12,8 +12,8 @@
     body { overflow-x: hidden; }
 
     body {
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 17px;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 19px;
       line-height: 1.7;
       color: #f4ead9;
       background:
@@ -48,7 +48,7 @@
 
     .slogan {
       font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 4vw, 1.4rem);
+      font-size: clamp(1.1rem, 4.5vw, 1.6rem);
       font-weight: 600;
       letter-spacing: .1em;
       color: #ead8b7;
@@ -141,11 +141,22 @@
     }
 
     .lead {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       color: #ead8b7;
-      line-height: 1.72;
+      line-height: 1.75;
+      font-weight: 500;
     }
 
+    /* ── VIDEOS ── */
+    .video-reihe {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+    }
+    @media (max-width: 480px) {
+      .video-reihe { grid-template-columns: 1fr 1fr; gap: 8px; }
+    }
     /* ── VIDEO ── */
     .video-wrap {
       position: relative;
@@ -251,7 +262,8 @@
       background: none;
       color: #f4ead9;
       font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-size: clamp(1.1rem, 3.5vw, 1.45rem);
+      font-weight: 600;
       letter-spacing: .06em;
       text-align: left;
       cursor: pointer;
@@ -259,7 +271,7 @@
     .acc-btn:hover { color: #d8a84a; }
     .acc-btn.open  { color: #d8a84a; }
     .acc-sub-text  { font-size: .78rem; color: #c7b99f; font-family: 'EB Garamond', serif; display: block; }
-    .acc-plus { font-size: 1.3rem; color: #d8a84a; transition: transform .3s; flex-shrink: 0; margin-left: 10px; }
+    .acc-plus { font-size: 2rem; color: #d8a84a; transition: transform .3s; flex-shrink: 0; margin-left: 10px; font-weight: 300; }
     .acc-btn.open .acc-plus { transform: rotate(45deg); }
 
     .acc-inhalt {
@@ -290,8 +302,41 @@
       text-align: center;
       padding: 10px;
     }
+    .galerie img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(216,174,90,.2);
+      display: block;
+    }
 
     /* ── MUSIK ── */
+    .musik-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(216,174,90,.1);
+    }
+    .musik-thumb {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid rgba(216,174,90,.3);
+      flex-shrink: 0;
+      background: rgba(216,174,90,.08);
+    }
+    .musik-thumb-leer {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      border: 1px solid rgba(216,174,90,.2);
+      flex-shrink: 0;
+      background: rgba(216,174,90,.06);
+    }
     .musik-row {
       display: flex;
       align-items: center;
@@ -373,11 +418,17 @@
 
     <!-- SPIELWERBUNG -->
     <section class="reveal" id="spiel">
-      <div class="video-wrap" onclick="videoPlay()">
-        <video id="spielvideo" src="kippclub_start.mp4" playsinline preload="metadata"></video>
-        <div class="play-overlay" id="play-overlay">
-          <div class="play-kreis">
-            <div class="play-dreieck"></div>
+      <div class="video-reihe">
+        <div class="video-wrap" onclick="videoPlay('v1','o1')">
+          <video id="v1" src="kippnumber.mp4" playsinline preload="metadata"></video>
+          <div class="play-overlay" id="o1">
+            <div class="play-kreis"><div class="play-dreieck"></div></div>
+          </div>
+        </div>
+        <div class="video-wrap" onclick="videoPlay('v2','o2')">
+          <video id="v2" src="kidskipp.mp4" playsinline preload="metadata"></video>
+          <div class="play-overlay" id="o2">
+            <div class="play-kreis"><div class="play-dreieck"></div></div>
           </div>
         </div>
       </div>
@@ -398,7 +449,14 @@
           <span class="acc-plus">+</span>
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
-          <div class="galerie"><div class="ph">bild_klass.webp</div><div class="ph">hunger_klass.webp</div></div>
+          <div class="galerie">
+          <img src="1_klass.jpg" alt="klass 1" onerror="this.style.display='none'">
+          <img src="2_klass.jpg" alt="klass 2" onerror="this.style.display='none'">
+          <img src="3_klass.jpg" alt="klass 3" onerror="this.style.display='none'">
+          <img src="4_klass.jpg" alt="klass 4" onerror="this.style.display='none'">
+          <img src="5_klass.jpg" alt="klass 5" onerror="this.style.display='none'">
+          <img src="6_klass.jpg" alt="klass 6" onerror="this.style.display='none'">
+        </div>
         </div></div>
       </div>
 
@@ -408,7 +466,14 @@
           <span class="acc-plus">+</span>
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
-          <div class="galerie"><div class="ph">hupfburg_kari.webp</div><div class="ph">portrait_kari.webp</div></div>
+          <div class="galerie">
+          <img src="1_kari.jpg" alt="kari 1" onerror="this.style.display='none'">
+          <img src="2_kari.jpg" alt="kari 2" onerror="this.style.display='none'">
+          <img src="3_kari.jpg" alt="kari 3" onerror="this.style.display='none'">
+          <img src="4_kari.jpg" alt="kari 4" onerror="this.style.display='none'">
+          <img src="5_kari.jpg" alt="kari 5" onerror="this.style.display='none'">
+          <img src="6_kari.jpg" alt="kari 6" onerror="this.style.display='none'">
+        </div>
         </div></div>
       </div>
 
@@ -418,7 +483,14 @@
           <span class="acc-plus">+</span>
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
-          <div class="galerie"><div class="ph">schwimmer_real.webp</div><div class="ph">motiv_real.webp</div></div>
+          <div class="galerie">
+          <img src="1_real.jpg" alt="real 1" onerror="this.style.display='none'">
+          <img src="2_real.jpg" alt="real 2" onerror="this.style.display='none'">
+          <img src="3_real.jpg" alt="real 3" onerror="this.style.display='none'">
+          <img src="4_real.jpg" alt="real 4" onerror="this.style.display='none'">
+          <img src="5_real.jpg" alt="real 5" onerror="this.style.display='none'">
+          <img src="6_real.jpg" alt="real 6" onerror="this.style.display='none'">
+        </div>
         </div></div>
       </div>
 
@@ -428,7 +500,14 @@
           <span class="acc-plus">+</span>
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
-          <div class="galerie"><div class="ph">wandbild_mural.webp</div><div class="ph">fassade_mural.webp</div></div>
+          <div class="galerie">
+          <img src="1_mural.jpg" alt="mural 1" onerror="this.style.display='none'">
+          <img src="2_mural.jpg" alt="mural 2" onerror="this.style.display='none'">
+          <img src="3_mural.jpg" alt="mural 3" onerror="this.style.display='none'">
+          <img src="4_mural.jpg" alt="mural 4" onerror="this.style.display='none'">
+          <img src="5_mural.jpg" alt="mural 5" onerror="this.style.display='none'">
+          <img src="6_mural.jpg" alt="mural 6" onerror="this.style.display='none'">
+        </div>
         </div></div>
       </div>
 
@@ -494,9 +573,9 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
   <footer>© LENNOY &nbsp;·&nbsp; Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</footer>
 
   <script>
-    function videoPlay() {
-      var video = document.getElementById('spielvideo');
-      var overlay = document.getElementById('play-overlay');
+    function videoPlay(vid, oid) {
+      var video = document.getElementById(vid);
+      var overlay = document.getElementById(oid);
       if (video.paused) {
         video.play();
         overlay.classList.add('versteckt');
@@ -506,13 +585,15 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
       }
     }
     document.addEventListener('DOMContentLoaded', function() {
-      var video = document.getElementById('spielvideo');
-      var overlay = document.getElementById('play-overlay');
-      if (video) {
-        video.addEventListener('ended', function() {
-          overlay.classList.remove('versteckt');
-        });
-      }
+      ['v1','v2'].forEach(function(vid) {
+        var video = document.getElementById(vid);
+        var oid = vid.replace('v','o');
+        if (video) {
+          video.addEventListener('ended', function() {
+            document.getElementById(oid).classList.remove('versteckt');
+          });
+        }
+      });
     });
 
     function menuToggle() {
@@ -549,6 +630,23 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
       var btn = document.getElementById(id);
       if (btn) { setTimeout(function(){ akkToggle(btn); }, 300); }
     }
+
+    /* Musik dynamisch laden */
+    function musikLaden() {
+      var liste = document.getElementById('musik-liste');
+      if (!liste) return;
+      var html = '';
+      for (var i = 1; i <= 6; i++) {
+        html += '<div class="musik-row" id="row' + i + '">' +
+          '<img class="musik-thumb" src="' + i + '_song.jpg" onerror="this.className='musik-thumb-leer'">' +
+          '<div style="flex:1"><strong>Song ' + i + '</strong></div>' +
+          '<button class="play-btn" onclick="audioToggle('s' + i + '',this)">▶</button>' +
+          '<audio id="s' + i + '" src="' + i + '_song.mp3" oncanplay="document.getElementById('row' + i + '').style.display='flex'" onerror="document.getElementById('row' + i + '').style.display='none'"></audio>' +
+          '</div>';
+      }
+      liste.innerHTML = html;
+    }
+    document.addEventListener('DOMContentLoaded', musikLaden);
 
     function audioToggle(id, btn) {
       document.querySelectorAll('audio').forEach(function(a) {
