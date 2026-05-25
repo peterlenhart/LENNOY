@@ -146,6 +146,56 @@
       line-height: 1.72;
     }
 
+    /* ── VIDEO ── */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      background: #000;
+    }
+    .video-wrap video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+    }
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.25);
+      transition: background .2s;
+    }
+    .play-overlay:hover { background: rgba(0,0,0,.1); }
+    .play-overlay.versteckt { display: none; }
+    .play-kreis {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(216,174,90,.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,.6);
+      transition: transform .2s, background .2s;
+    }
+    .play-overlay:hover .play-kreis {
+      transform: scale(1.1);
+      background: rgba(216,174,90,1);
+    }
+    .play-dreieck {
+      width: 0;
+      height: 0;
+      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
+      border-left: 24px solid #1a1208;
+      margin-left: 5px;
+    }
+
     /* ── SPIELWERBUNG ── */
     .werbung-bild {
       display: block;
@@ -323,7 +373,14 @@
 
     <!-- SPIELWERBUNG -->
     <section class="reveal" id="spiel">
-      <img class="werbung-bild" src="kippclub_start.webp" alt="KIPP CLUB">
+      <div class="video-wrap" onclick="videoPlay()">
+        <video id="spielvideo" src="kippclub_start.mp4" playsinline preload="metadata"></video>
+        <div class="play-overlay" id="play-overlay">
+          <div class="play-kreis">
+            <div class="play-dreieck"></div>
+          </div>
+        </div>
+      </div>
       <div class="stores">
         <a href="#"><img src="GooglePlay.webp" alt="Jetzt bei Google Play"></a>
         <a href="#"><img src="AppStore.webp"   alt="Laden im App Store"></a>
@@ -437,6 +494,27 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
   <footer>© LENNOY &nbsp;·&nbsp; Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</footer>
 
   <script>
+    function videoPlay() {
+      var video = document.getElementById('spielvideo');
+      var overlay = document.getElementById('play-overlay');
+      if (video.paused) {
+        video.play();
+        overlay.classList.add('versteckt');
+      } else {
+        video.pause();
+        overlay.classList.remove('versteckt');
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var video = document.getElementById('spielvideo');
+      var overlay = document.getElementById('play-overlay');
+      if (video) {
+        video.addEventListener('ended', function() {
+          overlay.classList.remove('versteckt');
+        });
+      }
+    });
+
     function menuToggle() {
       document.getElementById('menu').classList.toggle('open');
     }
