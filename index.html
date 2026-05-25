@@ -346,6 +346,14 @@
     }
 
     /* ── RESPONSIVE ──────────────────────────── */
+    /* ── PC / Querformat ── */
+    @media (min-width: 1024px) {
+      .wrap { width: min(860px, 88vw); }
+      .hero { padding: 70px 0 54px; }
+      .logo { width: 160px; }
+      .promo { gap: 60px; }
+      .acc-trigger { font-size: 1.4rem; }
+    }
     @media (max-width: 760px) {
       .promo { grid-template-columns: 1fr; }
       .promo-glow { max-width: 300px; margin: 0 auto; }
@@ -385,7 +393,7 @@
 
     <!-- ── HERO ───────────────────────────────────── -->
     <section class="hero" id="home">
-      <img class="logo" src="icon-512.png" alt="LENNOY Logo">
+      <img class="logo" src="icon_512.webp" alt="LENNOY Logo">
       <div class="hero-tag">Pinsel &nbsp;·&nbsp; Bits &nbsp;·&nbsp; Bytes</div>
       <div class="ornament">✦</div>
     </section>
