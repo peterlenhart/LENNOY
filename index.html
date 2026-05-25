@@ -112,11 +112,17 @@
     .sub a { font-size: .76rem; color: var(--muted); }
 
     /* ── LAYOUT ──────────────────────────────── */
-    .wrap { width: min(1100px, 92vw); margin: auto; }
+    .wrap { width: min(1100px, 92vw); margin: 0 auto; text-align: center; }
 
     /* ── HERO ────────────────────────────────── */
     .hero {
-      text-align: center; padding: 58px 0 46px; position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 58px 0 46px;
+      position: relative;
+      width: 100%;
     }
     .hero::before {
       content: ""; position: absolute; top: 60%; left: 50%;
