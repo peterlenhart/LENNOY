@@ -382,8 +382,7 @@
     }
 
     /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s, transform .6s; }
-    .reveal.sichtbar { opacity: 1; transform: none; }
+    .reveal { opacity: 1; }
 
   </style>
 </head>
@@ -635,16 +634,44 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
     function musikLaden() {
       var liste = document.getElementById('musik-liste');
       if (!liste) return;
-      var html = '';
+      var rows = '';
       for (var i = 1; i <= 6; i++) {
-        html += '<div class="musik-row" id="row' + i + '">' +
-          '<img class="musik-thumb" src="' + i + '_song.jpg" onerror="this.className='musik-thumb-leer'">' +
-          '<div style="flex:1"><strong>Song ' + i + '</strong></div>' +
-          '<button class="play-btn" onclick="audioToggle('s' + i + '',this)">▶</button>' +
-          '<audio id="s' + i + '" src="' + i + '_song.mp3" oncanplay="document.getElementById('row' + i + '').style.display='flex'" onerror="document.getElementById('row' + i + '').style.display='none'"></audio>' +
-          '</div>';
+        var row = document.createElement('div');
+        row.className = 'musik-row';
+        row.id = 'row' + i;
+
+        var thumb = document.createElement('img');
+        thumb.className = 'musik-thumb';
+        thumb.src = i + '_song.jpg';
+        thumb.onerror = function() { this.className = 'musik-thumb-leer'; };
+
+        var info = document.createElement('div');
+        info.style.flex = '1';
+        info.innerHTML = '<strong>Song ' + i + '</strong>';
+
+        var playBtn = document.createElement('button');
+        playBtn.className = 'play-btn';
+        playBtn.textContent = '▶';
+        (function(idx, btn) {
+          btn.onclick = function() { audioToggle('s' + idx, btn); };
+        })(i, playBtn);
+
+        var audio = document.createElement('audio');
+        audio.id = 's' + i;
+        audio.src = i + '_song.mp3';
+        (function(idx) {
+          audio.onerror = function() {
+            var r = document.getElementById('row' + idx);
+            if (r) r.style.display = 'none';
+          };
+        })(i);
+
+        row.appendChild(thumb);
+        row.appendChild(info);
+        row.appendChild(playBtn);
+        row.appendChild(audio);
+        liste.appendChild(row);
       }
-      liste.innerHTML = html;
     }
     document.addEventListener('DOMContentLoaded', musikLaden);
 
@@ -661,12 +688,7 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
       else { a.pause(); btn.textContent = '▶'; }
     }
 
-    var io = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) { e.target.classList.add('sichtbar'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.07 });
-    document.querySelectorAll('.reveal').forEach(function(el) { io.observe(el); });
+
   </script>
 
 </body>
