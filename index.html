@@ -146,6 +146,14 @@
       line-height: 1.72;
     }
 
+    /* ── SPIELWERBUNG ── */
+    .werbung-bild {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 14px;
+    }
     /* ── KIPP CLUB ── */
     .promo-bild {
       display: block;
@@ -160,16 +168,21 @@
 
     .stores {
       display: flex;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-top: 16px;
+      margin: 16px 0;
     }
     .stores img {
-      height: 48px;
+      height: 52px;
       width: auto;
-      border-radius: 8px;
-      border: 1px solid rgba(216,174,90,.3);
+      border-radius: 10px;
+      border: 1px solid rgba(216,174,90,.35);
+      transition: transform .2s, border-color .2s;
+    }
+    .stores a:hover img {
+      transform: translateY(-2px);
+      border-color: rgba(216,174,90,.7);
     }
 
     /* ── AKKORDEON ── */
@@ -308,16 +321,10 @@
       </button>
     </div>
 
-    <!-- KIPP CLUB -->
-    <section class="reveal" id="kippclub">
-      <img class="promo-bild" src="kippclub_start.webp" alt="KIPP CLUB">
-      <h2>KIPP CLUB</h2>
-      <p class="lead"><strong>Das 3D-Kippspiel.</strong><br>
-      Würfel in der Box. Würfelfelder merken, Randfelder treffen. Die Herausforderung meistern.</p>
-      <div class="stores">
-        <a href="#"><img src="GooglePlay.webp" alt="Google Play"></a>
-        <a href="#"><img src="AppStore.webp"   alt="App Store"></a>
-      </div>
+    <!-- SPIELWERBUNG -->
+    <section class="reveal" id="spiel">
+      <img class="werbung-bild" src="Kippwerbung_kopf.webp" alt="Spielwerbung oben">
+      <img class="werbung-bild" src="Kippwerbung_fuß.webp" alt="Spielwerbung unten">
     </section>
 
     <!-- RUBRIKEN AKKORDEON -->
