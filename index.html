@@ -328,6 +328,12 @@
       border-radius: 12px;
       border: 1px solid rgba(216,174,90,.2);
       display: block;
+      cursor: pointer;
+      transition: transform .2s, border-color .2s;
+    }
+    .galerie img:hover {
+      transform: scale(1.03);
+      border-color: rgba(216,174,90,.6);
     }
 
     /* ── MUSIK ── */
@@ -373,18 +379,47 @@
       flex-shrink: 0;
     }
 
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,.92);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .lightbox.offen {
+      display: flex;
+    }
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 8px 60px rgba(0,0,0,.8);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      color: #ead8b7;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
     /* ── KONTAKT ── */
     .email-link {
       display: inline-block;
-      margin-top: 12px;
-      padding: 11px 28px;
-      border: 1px solid #d8a84a;
-      border-radius: 8px;
-      color: #d8a84a;
-      font-family: 'Cinzel', serif;
-      letter-spacing: .08em;
+      margin-top: 8px;
+      color: #ead8b7;
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.1rem;
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
-    .email-link:hover { background: rgba(216,174,90,.1); }
+    .email-link:hover { color: #d8a84a; }
 
     /* ── IMPRESSUM ── */
     .legal { white-space: pre-line; color: #c7b99f; font-size: .92rem; line-height: 1.75; font-family: 'Raleway', sans-serif; }
@@ -472,12 +507,12 @@
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
           <div class="galerie">
-          <img src="1_klass.jpg" alt="klass 1" onerror="this.style.display='none'">
-          <img src="2_klass.jpg" alt="klass 2" onerror="this.style.display='none'">
-          <img src="3_klass.jpg" alt="klass 3" onerror="this.style.display='none'">
-          <img src="4_klass.jpg" alt="klass 4" onerror="this.style.display='none'">
-          <img src="5_klass.jpg" alt="klass 5" onerror="this.style.display='none'">
-          <img src="6_klass.jpg" alt="klass 6" onerror="this.style.display='none'">
+          <img src="1_klass.jpg" onclick="lightboxOeffnen(this.src)" alt="klass 1" onerror="this.style.display='none'">
+          <img src="2_klass.jpg" onclick="lightboxOeffnen(this.src)" alt="klass 2" onerror="this.style.display='none'">
+          <img src="3_klass.jpg" onclick="lightboxOeffnen(this.src)" alt="klass 3" onerror="this.style.display='none'">
+          <img src="4_klass.jpg" onclick="lightboxOeffnen(this.src)" alt="klass 4" onerror="this.style.display='none'">
+          <img src="5_klass.jpg" onclick="lightboxOeffnen(this.src)" alt="klass 5" onerror="this.style.display='none'">
+          <img src="6_klass.jpg" onclick="lightboxOeffnen(this.src)" alt="klass 6" onerror="this.style.display='none'">
         </div>
         </div></div>
       </div>
@@ -489,12 +524,12 @@
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
           <div class="galerie">
-          <img src="1_kari.jpg" alt="kari 1" onerror="this.style.display='none'">
-          <img src="2_kari.jpg" alt="kari 2" onerror="this.style.display='none'">
-          <img src="3_kari.jpg" alt="kari 3" onerror="this.style.display='none'">
-          <img src="4_kari.jpg" alt="kari 4" onerror="this.style.display='none'">
-          <img src="5_kari.jpg" alt="kari 5" onerror="this.style.display='none'">
-          <img src="6_kari.jpg" alt="kari 6" onerror="this.style.display='none'">
+          <img src="1_kari.jpg" onclick="lightboxOeffnen(this.src)" alt="kari 1" onerror="this.style.display='none'">
+          <img src="2_kari.jpg" onclick="lightboxOeffnen(this.src)" alt="kari 2" onerror="this.style.display='none'">
+          <img src="3_kari.jpg" onclick="lightboxOeffnen(this.src)" alt="kari 3" onerror="this.style.display='none'">
+          <img src="4_kari.jpg" onclick="lightboxOeffnen(this.src)" alt="kari 4" onerror="this.style.display='none'">
+          <img src="5_kari.jpg" onclick="lightboxOeffnen(this.src)" alt="kari 5" onerror="this.style.display='none'">
+          <img src="6_kari.jpg" onclick="lightboxOeffnen(this.src)" alt="kari 6" onerror="this.style.display='none'">
         </div>
         </div></div>
       </div>
@@ -506,12 +541,12 @@
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
           <div class="galerie">
-          <img src="1_real.jpg" alt="real 1" onerror="this.style.display='none'">
-          <img src="2_real.jpg" alt="real 2" onerror="this.style.display='none'">
-          <img src="3_real.jpg" alt="real 3" onerror="this.style.display='none'">
-          <img src="4_real.jpg" alt="real 4" onerror="this.style.display='none'">
-          <img src="5_real.jpg" alt="real 5" onerror="this.style.display='none'">
-          <img src="6_real.jpg" alt="real 6" onerror="this.style.display='none'">
+          <img src="1_real.jpg" onclick="lightboxOeffnen(this.src)" alt="real 1" onerror="this.style.display='none'">
+          <img src="2_real.jpg" onclick="lightboxOeffnen(this.src)" alt="real 2" onerror="this.style.display='none'">
+          <img src="3_real.jpg" onclick="lightboxOeffnen(this.src)" alt="real 3" onerror="this.style.display='none'">
+          <img src="4_real.jpg" onclick="lightboxOeffnen(this.src)" alt="real 4" onerror="this.style.display='none'">
+          <img src="5_real.jpg" onclick="lightboxOeffnen(this.src)" alt="real 5" onerror="this.style.display='none'">
+          <img src="6_real.jpg" onclick="lightboxOeffnen(this.src)" alt="real 6" onerror="this.style.display='none'">
         </div>
         </div></div>
       </div>
@@ -523,12 +558,12 @@
         </button>
         <div class="acc-inhalt"><div class="acc-inner">
           <div class="galerie">
-          <img src="1_mural.jpg" alt="mural 1" onerror="this.style.display='none'">
-          <img src="2_mural.jpg" alt="mural 2" onerror="this.style.display='none'">
-          <img src="3_mural.jpg" alt="mural 3" onerror="this.style.display='none'">
-          <img src="4_mural.jpg" alt="mural 4" onerror="this.style.display='none'">
-          <img src="5_mural.jpg" alt="mural 5" onerror="this.style.display='none'">
-          <img src="6_mural.jpg" alt="mural 6" onerror="this.style.display='none'">
+          <img src="1_mural.jpg" onclick="lightboxOeffnen(this.src)" alt="mural 1" onerror="this.style.display='none'">
+          <img src="2_mural.jpg" onclick="lightboxOeffnen(this.src)" alt="mural 2" onerror="this.style.display='none'">
+          <img src="3_mural.jpg" onclick="lightboxOeffnen(this.src)" alt="mural 3" onerror="this.style.display='none'">
+          <img src="4_mural.jpg" onclick="lightboxOeffnen(this.src)" alt="mural 4" onerror="this.style.display='none'">
+          <img src="5_mural.jpg" onclick="lightboxOeffnen(this.src)" alt="mural 5" onerror="this.style.display='none'">
+          <img src="6_mural.jpg" onclick="lightboxOeffnen(this.src)" alt="mural 6" onerror="this.style.display='none'">
         </div>
         </div></div>
       </div>
@@ -616,6 +651,19 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
           });
         }
       });
+    });
+
+    function lightboxOeffnen(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('offen');
+      document.body.style.overflow = 'hidden';
+    }
+    function lightboxZu() {
+      document.getElementById('lightbox').classList.remove('offen');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') lightboxZu();
     });
 
     function menuToggle() {
@@ -713,6 +761,12 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
 
 
   </script>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="lightboxZu()">
+    <span class="lightbox-close">✕</span>
+    <img id="lightbox-img" src="" alt="">
+  </div>
 
 </body>
 </html>
