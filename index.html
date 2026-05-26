@@ -573,18 +573,7 @@
           <span>KI-Musik<span class="acc-sub-text">Songs mit Player</span></span>
           <span class="acc-plus">+</span>
         </button>
-        <div class="acc-inhalt"><div class="acc-inner">
-          <div class="musik-row">
-            <button class="play-btn" onclick="audioToggle('a1',this)">▶</button>
-            <div><strong>Song 1</strong><br><small style="color:#c7b99f">song1.mp3</small></div>
-            <audio id="a1" src="song1.mp3"></audio>
-          </div>
-          <div class="musik-row">
-            <button class="play-btn" onclick="audioToggle('a2',this)">▶</button>
-            <div><strong>Song 2</strong><br><small style="color:#c7b99f">song2.mp3</small></div>
-            <audio id="a2" src="song2.mp3"></audio>
-          </div>
-        </div></div>
+        <div class="acc-inhalt"><div class="acc-inner" id="musik-liste"></div></div>
       </div>
 
     </section>
@@ -701,71 +690,49 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
       if (btn) { setTimeout(function(){ akkToggle(btn); }, 300); }
     }
 
-    /* Musik via GitHub API laden */
-    var REPO_BASE = 'https://peterlenhart.github.io/LENNOY/';
-
-    function titelAusDatei(dateiname) {
-      return dateiname.replace('_song.mp3', '');
-    }
-
-    function songZeile(songName, idx) {
-      var titel    = titelAusDatei(songName);
-      var songUrl  = REPO_BASE + songName;
-      var coverUrl = REPO_BASE + titel + '_cover.jpg';
-
-      var row = document.createElement('div');
-      row.className = 'musik-row';
-
-      var thumb = document.createElement('img');
-      thumb.className = 'musik-thumb';
-      thumb.src = coverUrl;
-      thumb.onerror = function() { this.className = 'musik-thumb-leer'; };
-
-      var info = document.createElement('div');
-      info.style.flex = '1';
-      info.innerHTML = '<strong>' + titel + '</strong>';
-
-      var playBtn = document.createElement('button');
-      playBtn.className = 'play-btn';
-      playBtn.textContent = '▶';
-
-      var audio = document.createElement('audio');
-      audio.id = 'song_' + idx;
-      audio.src = songUrl;
-      playBtn.onclick = function() { audioToggle('song_' + idx, playBtn); };
-
-      row.appendChild(thumb);
-      row.appendChild(info);
-      row.appendChild(playBtn);
-      row.appendChild(audio);
-      return row;
-    }
-
+    /* Musik via songs.json laden */
     function musikLaden() {
       var liste = document.getElementById('musik-liste');
       if (!liste) return;
 
-      fetch('https://api.github.com/repos/peterlenhart/LENNOY/contents/')
+      fetch('songs.json')
         .then(function(r) { return r.json(); })
-        .then(function(dateien) {
-          if (!Array.isArray(dateien)) {
-            liste.innerHTML = '<p style="color:#c7b99f">API nicht erreichbar.</p>';
-            return;
-          }
-          var songs = dateien
-            .filter(function(d) { return d.name.endsWith('_song.mp3'); })
-            .sort(function(a, b) { return a.name.localeCompare(b.name); });
-
-          if (songs.length === 0) {
+        .then(function(titel) {
+          if (!titel.length) {
             liste.innerHTML = '<p style="color:#c7b99f">Noch keine Songs vorhanden.</p>';
             return;
           }
-          songs.forEach(function(song, idx) {
-            liste.appendChild(songZeile(song.name, idx));
+          titel.forEach(function(titel, idx) {
+            var row = document.createElement('div');
+            row.className = 'musik-row';
+
+            var thumb = document.createElement('img');
+            thumb.className = 'musik-thumb';
+            thumb.src = titel + '_cover.jpg';
+            thumb.onerror = function() { this.className = 'musik-thumb-leer'; };
+
+            var info = document.createElement('div');
+            info.style.flex = '1';
+            info.innerHTML = '<strong>' + titel + '</strong>';
+
+            var playBtn = document.createElement('button');
+            playBtn.className = 'play-btn';
+            playBtn.textContent = '▶';
+
+            var audio = document.createElement('audio');
+            audio.id = 'song_' + idx;
+            audio.src = titel + '_song.mp3';
+            playBtn.onclick = function() { audioToggle('song_' + idx, playBtn); };
+
+            row.appendChild(thumb);
+            row.appendChild(info);
+            row.appendChild(playBtn);
+            row.appendChild(audio);
+            liste.appendChild(row);
           });
         })
-        .catch(function(err) {
-          liste.innerHTML = '<p style="color:#c7b99f">Songs konnten nicht geladen werden.</p>';
+        .catch(function() {
+          liste.innerHTML = '<p style="color:#c7b99f">songs.json nicht gefunden.</p>';
         });
     }
     document.addEventListener('DOMContentLoaded', musikLaden);
