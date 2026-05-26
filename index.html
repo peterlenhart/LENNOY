@@ -701,48 +701,62 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
       if (btn) { setTimeout(function(){ akkToggle(btn); }, 300); }
     }
 
-    /* Musik dynamisch laden */
+    /* Musik via GitHub API laden */
+    function titelAusDatei(dateiname) {
+      return dateiname.replace('_song.mp3', '');
+    }
+
     function musikLaden() {
       var liste = document.getElementById('musik-liste');
       if (!liste) return;
-      var rows = '';
-      for (var i = 1; i <= 6; i++) {
-        var row = document.createElement('div');
-        row.className = 'musik-row';
-        row.id = 'row' + i;
 
-        var thumb = document.createElement('img');
-        thumb.className = 'musik-thumb';
-        thumb.src = i + '_song.jpg';
-        thumb.onerror = function() { this.className = 'musik-thumb-leer'; };
+      fetch('https://api.github.com/repos/peterlenhart/LENNOY/contents/')
+        .then(function(r) { return r.json(); })
+        .then(function(dateien) {
+          var songs = dateien
+            .filter(function(d) { return d.name.endsWith('_song.mp3'); })
+            .sort(function(a, b) { return a.name.localeCompare(b.name); });
 
-        var info = document.createElement('div');
-        info.style.flex = '1';
-        info.innerHTML = '<strong>Song ' + i + '</strong>';
+          if (songs.length === 0) {
+            liste.innerHTML = '<p style="color:#c7b99f">Keine Songs gefunden.</p>';
+            return;
+          }
 
-        var playBtn = document.createElement('button');
-        playBtn.className = 'play-btn';
-        playBtn.textContent = '▶';
-        (function(idx, btn) {
-          btn.onclick = function() { audioToggle('s' + idx, btn); };
-        })(i, playBtn);
+          songs.forEach(function(song, idx) {
+            var titel = titelAusDatei(song.name);
+            var coverName = titel + '_cover.jpg';
 
-        var audio = document.createElement('audio');
-        audio.id = 's' + i;
-        audio.src = i + '_song.mp3';
-        (function(idx) {
-          audio.onerror = function() {
-            var r = document.getElementById('row' + idx);
-            if (r) r.style.display = 'none';
-          };
-        })(i);
+            var row = document.createElement('div');
+            row.className = 'musik-row';
 
-        row.appendChild(thumb);
-        row.appendChild(info);
-        row.appendChild(playBtn);
-        row.appendChild(audio);
-        liste.appendChild(row);
-      }
+            var thumb = document.createElement('img');
+            thumb.className = 'musik-thumb';
+            thumb.src = coverName;
+            thumb.onerror = function() { this.className = 'musik-thumb-leer'; };
+
+            var info = document.createElement('div');
+            info.style.flex = '1';
+            info.innerHTML = '<strong>' + titel + '</strong>';
+
+            var playBtn = document.createElement('button');
+            playBtn.className = 'play-btn';
+            playBtn.textContent = '▶';
+
+            var audio = document.createElement('audio');
+            audio.id = 'song_' + idx;
+            audio.src = song.name;
+            playBtn.onclick = function() { audioToggle('song_' + idx, playBtn); };
+
+            row.appendChild(thumb);
+            row.appendChild(info);
+            row.appendChild(playBtn);
+            row.appendChild(audio);
+            liste.appendChild(row);
+          });
+        })
+        .catch(function() {
+          liste.innerHTML = '<p style="color:#c7b99f">Songs konnten nicht geladen werden.</p>';
+        });
     }
     document.addEventListener('DOMContentLoaded', musikLaden);
 
