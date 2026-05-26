@@ -706,6 +706,48 @@ Diese Website verarbeitet personenbezogene Daten ausschließlich im technisch no
     }
 
 
+    /* ============================================
+       SONGS HIER BEARBEITEN — unteres Drittel
+       Format: 'Dateiname vor dem Unterstrich'
+       Repo-Dateien: Name_song.mp3 + Name_cover.jpg
+       ============================================ */
+    var SONGS = [
+      'Wir sind gut',
+      'Die Wanduhr',
+      'Melarissa',
+      'Kickstart'
+    ];
+    /* ============================================ */
+
+    function musikLaden() {
+      var liste = document.getElementById('musik-liste');
+      if (!liste) return;
+      SONGS.forEach(function(titel, idx) {
+        var row = document.createElement('div');
+        row.className = 'musik-row';
+        var thumb = document.createElement('img');
+        thumb.className = 'musik-thumb';
+        thumb.src = titel + '_cover.jpg';
+        thumb.onerror = function() { this.className = 'musik-thumb-leer'; };
+        var info = document.createElement('div');
+        info.style.flex = '1';
+        info.innerHTML = '<strong>' + titel + '</strong>';
+        var playBtn = document.createElement('button');
+        playBtn.className = 'play-btn';
+        playBtn.textContent = '▶';
+        var audio = document.createElement('audio');
+        audio.id = 'song_' + idx;
+        audio.src = titel + '_song.mp3';
+        playBtn.onclick = function() { audioToggle('song_' + idx, playBtn); };
+        row.appendChild(thumb);
+        row.appendChild(info);
+        row.appendChild(playBtn);
+        row.appendChild(audio);
+        liste.appendChild(row);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', musikLaden);
+
   </script>
 
   <!-- LIGHTBOX -->
